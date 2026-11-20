@@ -670,8 +670,18 @@ dialog::backdrop{background:rgba(43,27,36,.45)}
           <div class="fl"><input id="tPhone" placeholder=" " inputmode="tel" required><label for="tPhone">เบอร์โทร ครูผู้รับผิดชอบ</label></div>
         </div>
       </fieldset>
+      <fieldset>
+        <legend>4. จำนวนนักเรียน ปีการศึกษาปัจจุบัน</legend>
+        <p class="sub" style="margin:0 0 10px;font-size:15px">ใช้คำนวณสถิติ จำนวนทั้งหมด เข้าสอบกี่คน คิดเป็นร้อยละเท่าไร ชั้นที่ไม่มีนักเรียนใส่ 0</p>
+        <div class="grid">
+          <div class="fl"><input id="nP1" type="number" min="0" max="999" inputmode="numeric" placeholder=" " required><label for="nP1">ป.1 (คน)</label></div>
+          <div class="fl"><input id="nP3" type="number" min="0" max="999" inputmode="numeric" placeholder=" " required><label for="nP3">ป.3 (คน)</label></div>
+          <div class="fl"><input id="nP6" type="number" min="0" max="999" inputmode="numeric" placeholder=" " required><label for="nP6">ป.6 (คน)</label></div>
+          <div class="fl" id="nM3Box"><input id="nM3" type="number" min="0" max="999" inputmode="numeric" placeholder=" "><label for="nM3">ม.3 (คน)</label></div>
+        </div>
+      </fieldset>
       <fieldset id="pwBlock">
-        <legend>4. การเข้าใช้งาน</legend>
+        <legend>5. การเข้าใช้งาน</legend>
         <div class="school-box" style="clear:both;margin-top:0">ชื่อผู้ใช้และรหัสผ่าน คือ <b>รหัสโรงเรียน 8 หลัก</b> <span id="rCredHint"></span><br><small>ไม่ต้องตั้งรหัสผ่าน ครูทุกคนในโรงเรียนใช้รหัสเดียวกันได้</small></div>
         <label style="display:flex;gap:10px;align-items:flex-start;margin-top:16px;font-weight:400;font-size:15.5px;color:var(--ink2)"><input id="consent" type="checkbox" style="width:20px;height:20px;margin-top:3px;accent-color:var(--pink)">ยินยอมให้ใช้ข้อมูลนี้เพื่อการนิเทศ ติดตาม และจัดทำสารสนเทศของ สพป.สุรินทร์ เขต 1</label>
       </fieldset>
@@ -721,7 +731,7 @@ dialog::backdrop{background:rgba(43,27,36,.45)}
       <div class="kpis" id="aKpi"></div>
       <div class="card" style="margin-top:16px">
         <h3 style="margin:0 0 10px">แยกตามเครือข่าย</h3>
-        <div class="scroll"><table><thead><tr><th>เครือข่าย</th><th>ลงทะเบียน</th><th>รออนุมัติ</th><th style="width:34%">ความคืบหน้า</th><th>นักเรียน ป.1</th></tr></thead><tbody id="aNet"></tbody></table></div>
+        <div class="scroll"><table><thead><tr><th>เครือข่าย</th><th>ลงทะเบียน</th><th>รออนุมัติ</th><th style="width:34%">ความคืบหน้า</th><th>นักเรียน ป.1 (แจ้ง)</th></tr></thead><tbody id="aNet"></tbody></table></div>
       </div>
     </div>
 
@@ -729,16 +739,16 @@ dialog::backdrop{background:rgba(43,27,36,.45)}
       <div class="card">
         <div class="row">
           <div><label for="rNet">เครือข่าย</label><select id="rNet" onchange="renderReg()"><option value="">ทุกเครือข่าย</option></select></div>
-          <div><label for="rSt">สถานะ</label><select id="rSt" onchange="renderReg()"><option value="">ทั้งหมด</option><option value="pending">รออนุมัติ</option><option value="approved">อนุมัติแล้ว</option><option value="suspended">ระงับการใช้งาน</option></select></div>
+          <div><label for="rSt">สถานะ</label><select id="rSt" onchange="renderReg()"><option value="">ทั้งหมด</option><option value="approved">ใช้งานได้</option><option value="suspended">ระงับการใช้งาน</option></select></div>
           <div><label for="rQ">ค้นหา</label><input id="rQ" placeholder="ชื่อ รหัส หรือชื่อครู" oninput="renderReg()"></div>
         </div>
         <div class="actions" style="margin-top:14px">
-          <button class="btn ok sm" onclick="bulk('approved')">อนุมัติที่เลือก</button>
+          <button class="btn ok sm" onclick="bulk('approved')">เปิดใช้งานที่เลือก</button>
           <button class="btn danger sm" onclick="bulk('suspended')">ระงับที่เลือก</button>
-          <button class="btn soft sm" onclick="approveAllPending()">อนุมัติทั้งหมดที่รออยู่</button>
+          
           <span id="selCount" style="align-self:center;color:var(--muted);font-size:14px"></span>
         </div>
-        <div class="scroll" style="margin-top:12px"><table><thead><tr><th><input type="checkbox" id="selAll" onchange="selectAll(this.checked)" aria-label="เลือกทั้งหมด" style="width:18px;height:18px"></th><th>โรงเรียน</th><th>สถานะ</th><th>ผอ.</th><th>ครูผู้รับผิดชอบ</th><th>ป.1</th><th>จัดการ</th></tr></thead><tbody id="aReg"></tbody></table></div>
+        <div class="scroll" style="margin-top:12px"><table><thead><tr><th><input type="checkbox" id="selAll" onchange="selectAll(this.checked)" aria-label="เลือกทั้งหมด" style="width:18px;height:18px"></th><th>โรงเรียน</th><th>สถานะ</th><th>ผอ.</th><th>ครูผู้รับผิดชอบ</th><th>จำนวนนักเรียน</th><th>จัดการ</th></tr></thead><tbody id="aReg"></tbody></table></div>
       </div>
     </div>
 
@@ -813,7 +823,7 @@ dialog::backdrop{background:rgba(43,27,36,.45)}
 
     <div id="at-set" class="hide">
       <div class="card" style="max-width:720px">
-        <label class="toggle"><input type="checkbox" id="sApprove"><span><b>ต้องให้ ศน. อนุมัติก่อน</b><br><small style="color:var(--muted)">โรงเรียนที่ลงทะเบียนใหม่จะอยู่ในสถานะ "รออนุมัติ" เข้าระบบได้ แต่จะส่งคะแนนได้เมื่ออนุมัติแล้ว</small></span></label>
+        <label class="toggle hide"><input type="checkbox" id="sApprove"><span><b>ต้องให้ ศน. อนุมัติก่อน</b><br><small style="color:var(--muted)">โรงเรียนที่ลงทะเบียนใหม่จะอยู่ในสถานะ "รออนุมัติ" เข้าระบบได้ แต่จะส่งคะแนนได้เมื่ออนุมัติแล้ว</small></span></label>
         <label class="toggle"><input type="checkbox" id="sOpen"><span><b>เปิดรับลงทะเบียน</b><br><small style="color:var(--muted)">ปิดเมื่อลงทะเบียนครบแล้ว เพื่อกันคนนอกสมัคร</small></span></label>
         <div class="actions" style="margin-top:16px"><button class="btn primary" id="bSet" onclick="saveSettings()">บันทึกการตั้งค่า</button><button class="btn soft" onclick="openPw()">เปลี่ยนรหัสผ่าน ศน.</button></div>
         <div id="mSet"></div>
@@ -1170,7 +1180,7 @@ let TOKEN = null, ME = null, ADMIN = null, RT = null, LEVEL = 'primary', EDIT = 
 const SEL = new Set();
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const STATUS_TXT = { pending:'รออนุมัติ', approved:'อนุมัติแล้ว', suspended:'ระงับการใช้งาน' };
+const STATUS_TXT = { pending:'รออนุมัติ', approved:'ใช้งานได้', suspended:'ระงับการใช้งาน' };
 const store = {
   get(){ try { return sessionStorage.getItem('ntk_token') || TOKEN; } catch(e){ return TOKEN; } },
   set(v){ TOKEN = v; try { v ? sessionStorage.setItem('ntk_token', v) : sessionStorage.removeItem('ntk_token'); } catch(e){} }
@@ -1328,12 +1338,16 @@ function enter(p){
   if (p.role === 'admin') { ADMIN = null; return go('admin'); }
   $('sName').textContent = p.name;
   $('sMeta').textContent = `รหัส ${p.code}  เครือข่าย${p.network}  ${p.level === 'extended' ? 'โรงเรียนขยายโอกาส' : 'อนุบาล – ป.6'}`;
-  $('sStatus').innerHTML = p.status === 'pending' ? '<div class="msg warn" style="margin:0 0 16px">บัญชีรอ ศน. อนุมัติ ดูคู่มือและข้อสอบได้ตามปกติ เมื่ออนุมัติแล้วจะส่งคะแนนได้</div>' : '';
+  $('sStatus').innerHTML = p.status === 'suspended' ? '<div class="msg warn" style="margin:0 0 16px">บัญชีนี้ถูกระงับการใช้งาน ดูคู่มือและข้อสอบได้ แต่ส่งคะแนนไม่ได้ กรุณาติดต่อ ศน.</div>' : '';
   const st = p.students || { total: 0, rooms: {} }, rk = Object.keys(st.rooms).sort((a, b) => a.localeCompare(b, 'th'));
   $('sInfo').innerHTML = `<div class="grid">
     <div><b>ผู้อำนวยการ</b><br>${esc(p.directorName)}<br><small>${esc(p.directorPhone)}</small></div>
     <div><b>ครูผู้รับผิดชอบ</b><br>${esc(p.teacherName)} ${p.teacherPosition ? '(' + esc(p.teacherPosition) + ')' : ''}<br><small>${esc(p.teacherPhone)}</small></div>
+    <div><b>จำนวนนักเรียนที่แจ้ง</b><br>${['nP1', 'nP3', 'nP6'].concat(p.level === 'extended' ? ['nM3'] : []).map(k => ({ nP1: 'ป.1', nP3: 'ป.3', nP6: 'ป.6', nM3: 'ม.3' })[k] + ' ' + (p[k] === '' || p[k] == null ? '<span style="color:var(--err)">ยังไม่กรอก</span>' : esc(p[k]) + ' คน')).join('<br>')}</div>
     <div><b>นักเรียนที่นำเข้า ปีการศึกษา ${esc(st.year || '')}</b><br>${st.total ? `รวม ${st.total} คน<br>${rk.map(r => esc(r) + ' ' + st.rooms[r] + ' คน').join('<br>')}` : '<span style="color:var(--muted)">ยังไม่ได้นำเข้ารายชื่อนักเรียน</span>'}</div></div>`;
+  const miss = ['nP1', 'nP3', 'nP6'].concat(p.level === 'extended' ? ['nM3'] : []).some(k => p[k] === '' || p[k] == null);
+  if (miss) $('sStatus').innerHTML = '<div class="msg warn" style="margin:0 0 16px">กรุณากรอกจำนวนนักเรียน ป.1 ป.3 ป.6' + (p.level === 'extended' ? ' ม.3' : '') +
+    ' เพื่อใช้คำนวณร้อยละผู้เข้าสอบ <button class="btn primary sm" onclick="openEditSelf()">กรอกจำนวนนักเรียน</button></div>';
   roomCards('roomsSchool', MAIN_ROOMS); go('school');
 }
 
@@ -1387,9 +1401,10 @@ async function doLogin(e){
 async function doLogout(){ await api('logout', store.get()).catch(() => {}); store.set(null); ME = null; ADMIN = null; navState(); go('home'); }
 
 /* ---------- ลงทะเบียน / แก้ไข ---------- */
-function setLevel(l){ LEVEL = l; $('lvP').classList.toggle('on', l === 'primary'); $('lvE').classList.toggle('on', l === 'extended'); }
+function setLevel(l){ LEVEL = l; $('lvP').classList.toggle('on', l === 'primary'); $('lvE').classList.toggle('on', l === 'extended');
+  $('nM3Box').classList.toggle('hide', l !== 'extended'); $('nM3').required = l === 'extended'; }
 function resetForm(){
-  ['rCode','dName','dPhone','tName','tPos','tPhone'].forEach(i => $(i).value = ''); fillPicker('r'); $('rCredHint').textContent = '';
+  ['rCode','dName','dPhone','tName','tPos','tPhone','nP1','nP3','nP6','nM3'].forEach(i => $(i).value = ''); fillPicker('r'); $('rCredHint').textContent = '';
   $('consent').checked = false; $('rSchool').innerHTML = ''; msg('mReg'); setLevel('primary');
   $('codeBlock').classList.remove('hide'); $('pwBlock').classList.remove('hide'); $('bCancelEdit').classList.add('hide');
   $('regTitle').textContent = 'ลงทะเบียนโรงเรียน'; $('regSub').textContent = 'หนึ่งโรงเรียนลงทะเบียนได้หนึ่งบัญชี ใช้เวลาประมาณ 3 นาที';
@@ -1435,6 +1450,7 @@ async function checkCode(){
 function formData(){
   return { code:$('rCode').value, level:LEVEL, directorName:$('dName').value, directorPhone:$('dPhone').value,
     teacherName:$('tName').value, teacherPosition:$('tPos').value, teacherPhone:$('tPhone').value,
+    nP1:$('nP1').value, nP3:$('nP3').value, nP6:$('nP6').value, nM3: LEVEL === 'extended' ? $('nM3').value : '',
     consent:$('consent').checked };
 }
 function fillForm(p, title, sub){
@@ -1445,6 +1461,7 @@ function fillForm(p, title, sub){
   setLevel(p.level || 'primary');
   $('dName').value = p.directorName || ''; $('dPhone').value = p.directorPhone || '';
   $('tName').value = p.teacherName || ''; $('tPos').value = p.teacherPosition || ''; $('tPhone').value = p.teacherPhone || '';
+  ['nP1', 'nP3', 'nP6', 'nM3'].forEach(k => $(k).value = p[k] === undefined || p[k] === null ? '' : p[k]);
   go('register');
 }
 function openEditSelf(){ fillForm(ME, 'แก้ไขข้อมูลโรงเรียน', 'ปรับเมื่อเปลี่ยนผู้บริหาร ครูผู้รับผิดชอบ หรือขึ้นปีการศึกษาใหม่'); }
@@ -1489,8 +1506,8 @@ async function loadAdmin(){
   try {
     ADMIN = await api('adminOverview', store.get());
     const t = ADMIN.totals;
-    const k = [['ลงทะเบียนแล้ว', t.registered + '/' + t.total, '#FFD6E7', '#6E0F38'], ['รออนุมัติ', t.pending, '#FFF2B8', '#5E4300'],
-      ['นักเรียนที่นำเข้ารายชื่อ (ทุกชั้น)', t.nP1, '#FFE9D6', '#6E2B08'], ['โรงเรียนขยายโอกาส', t.extended, '#E6DCFF', '#35227A']];
+    const k = [['ลงทะเบียนแล้ว', t.registered + '/' + t.total, '#FFD6E7', '#6E0F38'], ['ระงับการใช้งาน', ADMIN.schools.filter(s => s.status === 'suspended').length, '#FFF2B8', '#5E4300'],
+      ['นักเรียนที่โรงเรียนแจ้ง', `<span style="display:block;font-size:17px;line-height:1.5">ป.1 ${t.nP1} · ป.3 ${t.nP3}<br>ป.6 ${t.nP6} · ม.3 ${t.nM3}</span>`, '#FFE9D6', '#6E2B08'], ['โรงเรียนขยายโอกาส', t.extended, '#E6DCFF', '#35227A']];
     $('aKpi').innerHTML = k.map(x => `<div class="kpi" style="--bg:${x[2]};--t:${x[3]}"><span>${x[0]}</span><b>${x[1]}</b></div>`).join('');
     $('aNet').innerHTML = ADMIN.networks.map(n => { const p = n.total ? Math.round(n.registered / n.total * 100) : 0;
       return `<tr><td>${esc(n.network)}</td><td>${n.registered}/${n.total}</td><td>${n.pending || ''}</td><td><div class="meter" title="${p}%"><i style="width:${p}%"></i></div></td><td>${n.nP1}</td></tr>`; }).join('')
@@ -1515,9 +1532,9 @@ function renderReg(){
     <td><b>${esc(s.name)}</b><br><small style="color:var(--muted)">${s.code} ${esc(s.network)}</small></td>
     <td><span class="pill ${s.status}">${STATUS_TXT[s.status]}</span></td>
     <td>${esc(s.directorName)}<br><small>${esc(s.directorPhone)}</small></td>
-    <td>${esc(s.teacherName)}<br><small>${esc(s.teacherPhone)}</small></td><td>${s.nP1}</td>
+    <td>${esc(s.teacherName)}<br><small>${esc(s.teacherPhone)}</small></td><td style="white-space:nowrap;font-size:14px">ป.1 ${s.nP1} · ป.3 ${s.nP3}<br>ป.6 ${s.nP6}${s.level === 'extended' ? ' · ม.3 ' + s.nM3 : ''}</td>
     <td><div class="actions">
-      ${s.status !== 'approved' ? `<button class="btn ok sm" onclick="setStatus(['${s.code}'],'approved')">อนุมัติ</button>` : ''}
+      ${s.status !== 'approved' ? `<button class="btn ok sm" onclick="setStatus(['${s.code}'],'approved')">เปิดใช้งาน</button>` : ''}
       <button class="btn soft sm" onclick="editSchool('${s.code}')">แก้ไข</button>
       
       ${s.status !== 'suspended' ? `<button class="btn danger sm" onclick="setStatus(['${s.code}'],'suspended')">ระงับ</button>` : ''}
@@ -1791,7 +1808,7 @@ function rowCalc(id){
 function renderEntry(){
   const d = EN.data;
   yearOptions('enYear', EN.year, d.years);
-  $('enWarn').innerHTML = !d.approved ? '<div class="msg warn">บัญชีโรงเรียนรอ ศน. อนุมัติ จึงยังเพิ่มนักเรียนและบันทึกผลไม่ได้</div>'
+  $('enWarn').innerHTML = !d.approved ? '<div class="msg warn">บัญชีนี้ถูกระงับการใช้งาน จึงยังเพิ่มนักเรียนและบันทึกผลไม่ได้</div>'
     : d.year !== d.currentYear ? `<div class="msg warn">ปีการศึกษา ${d.year} ไม่ใช่ปีปัจจุบัน ดูข้อมูลได้อย่างเดียว</div>`
     : !d.open ? `<div class="msg warn">ครั้งที่ ${EN.round} ปิดการบันทึกแล้ว ดูข้อมูลได้อย่างเดียว</div>` : '';
   $('enRounds').innerHTML = [1, 2, 3, 4].map(r => `<button class="chip ${r === EN.round ? 'on' : ''}" onclick="switchRound(${r})">ครั้งที่ ${r}${d.openRounds.includes(r) ? '' : ' (ปิด)'}</button>`).join(' ');
@@ -2016,7 +2033,7 @@ async function confirmScores(){
 let IMP = [];
 async function importStudents(inp){
   const f = inp.files[0]; inp.value = ''; if (!f) return;
-  if (!EN.data || !EN.data.approved) return toast('บัญชีโรงเรียนรอ ศน. อนุมัติ');
+  if (!EN.data || !EN.data.approved) return toast('บัญชีนี้ถูกระงับการใช้งาน');
   if (EN.dirty.size) return toast('กดบันทึกผลที่แก้ไขไว้ก่อน แล้วค่อยนำเข้ารายชื่อ');
   try {
     const X = await loadXLSX(), wb = X.read(await f.arrayBuffer(), { type: 'array' });
@@ -2053,7 +2070,7 @@ async function confirmImport(){
 }
 function nextNo(room){ return EN.data.students.filter(s => s.room === room).reduce((m, s) => Math.max(m, s.no), 0) + 1; }
 function openAddStu(){
-  if (!EN.data || !EN.data.approved) return toast('บัญชีโรงเรียนรอ ศน. อนุมัติ');
+  if (!EN.data || !EN.data.approved) return toast('บัญชีนี้ถูกระงับการใช้งาน');
   if (EN.dirty.size) return toast('กดบันทึกผลที่แก้ไขไว้ก่อน แล้วค่อยเพิ่มนักเรียน');
   msg('mAs'); $('asRoom').value = EN.room || XM().grade + '/1'; $('asNo').value = nextNo($('asRoom').value); $('asName').value = '';
   $('asRoom').onchange = () => $('asNo').value = nextNo($('asRoom').value.trim());
@@ -2124,14 +2141,29 @@ async function loadReport(){
   } catch(e){ $('rpBody').innerHTML = ''; msg('rpErr', e.message); }
 }
 function wordView(r){ return r.words.map((w, i) => ({ no: i + 1, text: w.text, category: w.category, pct: r.summary.wordPct[i], ok: (r.summary.wordOk || [])[i] })); }
+/* จำนวนทั้งหมด (โรงเรียนแจ้ง) เข้าสอบ และร้อยละ */
+function hasEnr(r){ return r.enrolled !== undefined; }
+/* การ์ดใหญ่ 3 ใบ: นักเรียนทั้งหมด / เข้าสอบ / ร้อยละ */
+function enrCards(r){
+  const s = r.summary, list = r.level === 'room' || r.level === 'student';
+  const src = list ? 'ตามรายชื่อในห้อง' : 'ตามที่โรงเรียนแจ้ง' + (r.enrollMissing ? ` · ยังไม่แจ้ง ${r.enrollMissing} โรงเรียน` : '');
+  return [['นักเรียนทั้งหมด', r.enrolled ?? '–', r.enrolled === null ? (list ? 'ยังไม่มีรายชื่อ' : 'ยังไม่มีโรงเรียนแจ้งจำนวน') : src, '#D3ECFF', '#0B4170'],
+          ['นักเรียนที่เข้าสอบ', s.tested, s.absent ? `ขาดสอบ ${s.absent} คน` : 'ไม่มีผู้ขาดสอบ', '#FFD6E7', '#6E0F38'],
+          ['คิดเป็นร้อยละ', pctTxt(r.testedPct), r.enrolled ? `เข้าสอบ ${s.tested} จาก ${r.enrolled} คน` : '', '#CDF3E4', '#0A4A38']];
+}
+function enrTxt(r){
+  if (!hasEnr(r)) return '';
+  if (r.enrolled === null) return 'ยังไม่มีโรงเรียนแจ้งจำนวนนักเรียน';
+  return `จากทั้งหมด ${r.enrolled} คน (ร้อยละ ${pctTxt(r.testedPct)})` + (r.enrollMissing ? ` · ยังไม่แจ้งจำนวน ${r.enrollMissing} โรงเรียน` : '');
+}
+const enrCells = x => `<td>${x.enrolled ?? '–'}</td><td>${pctTxt(x.testedPct)}</td>`;
 function kpiCards(r){
   const s = r.summary, W = r.words.length;
-  const kp = [
-    ['นักเรียนที่สอบ', s.tested, r.enrolled ? `จาก ${(EXF[(r.exam || {}).id] || EXF.rt1).grade} ที่ลงทะเบียน ${r.enrolled} คน` : (s.absent ? `ขาดสอบ ${s.absent} คน` : ''), '#FFD6E7', '#6E0F38'],
+  const kp = [...enrCards(r),
     ['คะแนนเฉลี่ย', pctTxt(s.avgPct), `ตอน 1 ${numTxt(s.avgP1)}/${W}  ตอน 2 ${numTxt(s.avgP2)}/30`, '#FFF2B8', '#5E4300'],
-    [`อ่านได้ครบ ${W} คำ`, s.allWords, s.tested ? pctTxt(s.allWords / s.tested * 100) + ' ของผู้สอบ' : '', '#CDF3E4', '#0A4A38'],
+    [`อ่านได้ครบ ${W} คำ`, s.allWords, s.tested ? pctTxt(s.allWords / s.tested * 100) + ' ของผู้สอบ' : '', '#E8F6F3', '#0B4A44'],
     ['ต้องเร่งพัฒนา', s.below, s.tested ? pctTxt(s.below / s.tested * 100) + ' ของผู้สอบ' : '', '#FDE8EA', '#7A1F2A']];
-  if (['area', 'net'].includes(r.level)) kp.splice(1, 0, ['โรงเรียนที่ส่งผล', `${r.schoolsSubmitted}/${r.schoolsTotal}`, '', '#E6DCFF', '#35227A']);
+  if (['area', 'net'].includes(r.level)) kp.splice(3, 0, ['โรงเรียนที่ส่งผล', `${r.schoolsSubmitted}/${r.schoolsTotal}`, '', '#E6DCFF', '#35227A']);
   return `<div class="kpis">${kp.map(k => `<div class="kpi" style="--bg:${k[3]};--t:${k[4]}"><span>${k[0]}</span><b>${k[1]}</b><small>${k[2]}</small></div>`).join('')}</div>`;
 }
 function wordsPanel(r){
@@ -2171,8 +2203,8 @@ function renderReport(r){
   if (r.rows && r.rows.length && !(r.level === 'net' && r.schools)) {
     const head = { area: 'เครือข่าย', net: 'โรงเรียน', school: 'ห้อง' }[r.level], ranked = r.rows.some(x => x.rank);
     h += `<div class="card" style="margin-top:16px"><h3 style="margin:0 0 4px">${ranked ? 'เรียงลำดับคะแนน' : 'เทียบ'}ราย${head === 'เครือข่าย' ? NET_FULL : head}</h3>
-      <p style="margin:0 0 10px;font-size:14px;color:var(--muted)">ครั้งที่ ${r.round} พร้อมความก้าวหน้าครั้งที่ 1–4 (ร้อยละเฉลี่ย) และคำที่ต้องแก้ไข 3 คำแรก</p><div class="scroll"><table><thead><tr>${ranked ? '<th>อันดับ</th>' : ''}<th>${head}</th><th>ผู้สอบ</th><th>ตอน 1</th><th>ตอน 2</th><th>ร้อยละเฉลี่ย</th><th>เร่งพัฒนา</th><th>ครั้ง 1</th><th>ครั้ง 2</th><th>ครั้ง 3</th><th>ครั้ง 4</th><th>ก้าวหน้า</th><th>คำที่ต้องแก้ไข</th></tr></thead><tbody>
-      ${r.rows.map(x => `<tr>${ranked ? `<td><b>${x.rank || '–'}</b></td>` : ''}<td>${esc(x.name)}</td><td>${x.missing ? '<span style="color:var(--muted)">ยังไม่ส่งผล</span>' : x.tested}</td><td>${numTxt(x.avgP1)}</td><td>${numTxt(x.avgP2)}</td><td><b>${pctTxt(x.avgPct)}</b></td><td>${numTxt(x.below)}</td>
+      <p style="margin:0 0 10px;font-size:14px;color:var(--muted)">ครั้งที่ ${r.round} พร้อมความก้าวหน้าครั้งที่ 1–4 (ร้อยละเฉลี่ย) และคำที่ต้องแก้ไข 3 คำแรก</p><div class="scroll"><table><thead><tr>${ranked ? '<th>อันดับ</th>' : ''}<th>${head}</th>${hasEnr(r) && r.level !== 'school' ? '<th>นักเรียนทั้งหมด</th>' : ''}<th>เข้าสอบ</th>${hasEnr(r) && r.level !== 'school' ? '<th>ร้อยละเข้าสอบ</th>' : ''}<th>ตอน 1</th><th>ตอน 2</th><th>ร้อยละเฉลี่ย</th><th>เร่งพัฒนา</th><th>ครั้ง 1</th><th>ครั้ง 2</th><th>ครั้ง 3</th><th>ครั้ง 4</th><th>ก้าวหน้า</th><th>คำที่ต้องแก้ไข</th></tr></thead><tbody>
+      ${r.rows.map(x => `<tr>${ranked ? `<td><b>${x.rank || '–'}</b></td>` : ''}<td>${esc(x.name)}</td>${hasEnr(r) && r.level !== 'school' ? `<td>${x.enrolled ?? '–'}</td>` : ''}<td>${x.missing ? '<span style="color:var(--muted)">ยังไม่ส่งผล</span>' : x.tested}</td>${hasEnr(r) && r.level !== 'school' ? `<td>${pctTxt(x.testedPct)}</td>` : ''}<td>${numTxt(x.avgP1)}</td><td>${numTxt(x.avgP2)}</td><td><b>${pctTxt(x.avgPct)}</b></td><td>${numTxt(x.below)}</td>
         ${(x.progress || [null, null, null, null]).map(v => `<td>${pctTxt(v)}</td>`).join('')}<td>${chg(x.change)}</td><td>${esc((x.weak || []).join(', '))}</td></tr>`).join('')}</tbody></table></div></div>`;
   }
   h += trendPanel(r);
@@ -2194,7 +2226,11 @@ function docModel(r){
     r.level === 'area' ? 'ห้องนิเทศก์ออนไลน์ ศน.ปิยะธิดา ช่างประเสริฐ' : (r.network && r.level !== 'net' ? NET_FULL + r.network + '  ' : '') + AREA_NAME,
     `ครั้งที่ ${r.round}  ปีการศึกษา ${r.year}` + (r.testDate ? `  วันที่สอบ ${thDateLong(r.testDate)}` : '')];
   const summary = [['รายการ', 'ผล'],
-    ['จำนวนนักเรียนที่เข้าสอบ (คน)', s.tested], ['จำนวนนักเรียนขาดสอบ (คน)', s.absent],
+    ...(hasEnr(r) && r.enrolled !== null ? [[`จำนวนนักเรียนทั้งหมด ${r.enrollSrc === 'list' ? 'ตามรายชื่อในห้อง' : 'ตามที่โรงเรียนแจ้ง'} (คน)`, r.enrolled]] : []),
+    ['จำนวนนักเรียนที่เข้าสอบ (คน)', s.tested],
+    ...(hasEnr(r) && r.enrolled !== null ? [['ร้อยละของนักเรียนที่เข้าสอบ', r.testedPct ?? '-']] : []),
+    ...(hasEnr(r) && r.enrollMissing ? [['โรงเรียนที่ยังไม่แจ้งจำนวนนักเรียน', r.enrollMissing]] : []),
+    ['จำนวนนักเรียนขาดสอบ (คน)', s.absent],
     [`ตอนที่ 1 อ่านคำ เฉลี่ย (เต็ม ${W})`, numTxt(s.avgP1)], ['ตอนที่ 2 อ่านข้อความ เฉลี่ย (เต็ม 30)', numTxt(s.avgP2)],
     ['คะแนนเฉลี่ยร้อยละ', s.avgPct === null ? '–' : s.avgPct], [`อ่านได้ครบ ${W} คำ (คน)`, s.allWords], [`ต้องเร่งพัฒนา ต่ำกว่าร้อยละ ${r.threshold} (คน)`, s.below]];
   const tables = [];
@@ -2213,17 +2249,18 @@ function docModel(r){
     rows: weakAll.length ? weakAll.map((w, i) => [i + 1, w.text, w.category, w.pct, s.tested - (w.ok || 0)]) : [['-', 'ไม่มีคำที่ต่ำกว่าเกณฑ์', '', '', '']] });
   if (r.rows && r.rows.length && !(r.level === 'net' && r.schools)) {
     const head = { area: 'เครือข่าย', net: 'โรงเรียน', school: 'ห้อง' }[r.level], ranked = r.rows.some(x => x.rank);
-    const hd = (ranked ? ['อันดับ'] : []).concat([head, 'ผู้สอบ', 'ตอน 1', 'ตอน 2', 'ร้อยละเฉลี่ย', 'เร่งพัฒนา (คน)']);
+    const E = hasEnr(r) && r.level !== 'school';
+    const hd = (ranked ? ['อันดับ'] : []).concat([head], E ? ['นักเรียนทั้งหมด'] : [], ['เข้าสอบ'], E ? ['ร้อยละเข้าสอบ'] : [], ['ตอน 1', 'ตอน 2', 'ร้อยละเฉลี่ย', 'เร่งพัฒนา (คน)']);
     tables.push({ title: `ตารางที่ ${tables.length + 1} ${ranked ? 'เรียงลำดับคะแนน' : 'เปรียบเทียบ'}ราย${head === 'เครือข่าย' ? NET_FULL : head} ครั้งที่ ${r.round}`, head: hd,
-      rows: r.rows.map(x => (ranked ? [x.rank || '-'] : []).concat([x.name, x.missing ? 'ยังไม่ส่งผล' : x.tested, numTxt(x.avgP1), numTxt(x.avgP2), x.avgPct ?? '-', numTxt(x.below)])) });
+      rows: r.rows.map(x => (ranked ? [x.rank || '-'] : []).concat([x.name], E ? [x.enrolled ?? '-'] : [], [x.missing ? 'ยังไม่ส่งผล' : x.tested], E ? [x.testedPct ?? '-'] : [], [numTxt(x.avgP1), numTxt(x.avgP2), x.avgPct ?? '-', numTxt(x.below)])) });
     tables.push({ title: `ตารางที่ ${tables.length + 1} ความก้าวหน้ารายครั้ง (ร้อยละเฉลี่ย) และคำที่ต้องแก้ไข`, head: [head, 'ครั้งที่ 1', 'ครั้งที่ 2', 'ครั้งที่ 3', 'ครั้งที่ 4', 'ผลต่าง (ครั้งแรก–ล่าสุด)', 'คำที่ต้องแก้ไข'],
       rows: r.rows.map(x => [x.name, ...(x.progress || [null, null, null, null]).map(v => v ?? '-'), x.change === null || x.change === undefined ? '-' : (x.change > 0 ? '+' : '') + x.change, (x.weak || []).join(', ') || '-']) });
   }
   if (r.schools && r.schools.length) {
     const area = r.level === 'area', sent = r.schools.filter(x => !x.missing);
     tables.push({ title: `ตารางที่ ${tables.length + 1} ผลรายโรงเรียน${area ? 'ทั้งเขต' : 'ในเครือข่าย'} เรียงลำดับคะแนน`,
-      head: ['อันดับ', 'โรงเรียน'].concat(area ? ['เครือข่าย'] : []).concat(['ผู้สอบ', 'ตอน 1', 'ตอน 2', 'ร้อยละ', 'เร่งพัฒนา']),
-      rows: r.schools.map(x => [x.rank || '-', x.name].concat(area ? [x.network] : []).concat([x.missing ? 'ยังไม่ส่งผล' : x.tested, numTxt(x.avgP1), numTxt(x.avgP2), x.avgPct ?? '-', numTxt(x.below)])) });
+      head: ['อันดับ', 'โรงเรียน'].concat(area ? ['เครือข่าย'] : []).concat(['นักเรียนทั้งหมด', 'เข้าสอบ', 'ร้อยละเข้าสอบ', 'ตอน 1', 'ตอน 2', 'ร้อยละ', 'เร่งพัฒนา']),
+      rows: r.schools.map(x => [x.rank || '-', x.name].concat(area ? [x.network] : []).concat([x.enrolled ?? '-', x.missing ? 'ยังไม่ส่งผล' : x.tested, x.testedPct ?? '-', numTxt(x.avgP1), numTxt(x.avgP2), x.avgPct ?? '-', numTxt(x.below)])) });
     if (sent.length) {
       tables.push({ title: `ตารางที่ ${tables.length + 1} ความก้าวหน้ารายโรงเรียน (ร้อยละเฉลี่ย) และคำที่ต้องแก้ไข`, head: ['โรงเรียน', 'ครั้ง 1', 'ครั้ง 2', 'ครั้ง 3', 'ครั้ง 4', 'ผลต่าง', 'คำที่ต้องแก้ไข'],
         rows: sent.map(x => [x.name, ...(x.progress || [null, null, null, null]).map(v => v ?? '-'), x.change === null || x.change === undefined ? '-' : (x.change > 0 ? '+' : '') + x.change, (x.weak || []).join(', ') || '-']) });
@@ -2354,16 +2391,16 @@ function rankPanel(r){
   if (!r.rows || !r.rows.some(x => x.rank)) return '';
   const head = r.level === 'area' ? 'เครือข่าย' : 'โรงเรียน';
   return `<div class="card" style="margin-top:16px"><h3 style="margin:0 0 4px">เรียงลำดับคะแนนราย${head === 'เครือข่าย' ? NET_FULL : head} (มุมมอง ศน.)</h3>
-    <p style="margin:0 0 10px;font-size:14px;color:var(--muted)">ครั้งที่ ${r.round} พร้อมความก้าวหน้าครั้งที่ 1–4 และคำที่ต้องแก้ไข</p><div class="scroll"><table><thead><tr><th>อันดับ</th><th>${head}</th><th>ผู้สอบ</th><th>ร้อยละเฉลี่ย</th><th>เร่งพัฒนา</th><th>ครั้ง 1</th><th>ครั้ง 2</th><th>ครั้ง 3</th><th>ครั้ง 4</th><th>ก้าวหน้า</th><th>คำที่ต้องแก้ไข</th></tr></thead><tbody>
-    ${r.rows.map(x => `<tr><td><b>${x.rank || '–'}</b></td><td>${esc(x.name)}</td><td>${x.missing ? '<span style="color:var(--muted)">ยังไม่ส่งผล</span>' : x.tested}</td><td><b>${pctTxt(x.avgPct)}</b></td><td>${numTxt(x.below)}</td>${(x.progress || [null, null, null, null]).map(v => `<td>${pctTxt(v)}</td>`).join('')}<td>${chg(x.change)}</td><td>${esc((x.weak || []).join(', '))}</td></tr>`).join('')}</tbody></table></div></div>`;
+    <p style="margin:0 0 10px;font-size:14px;color:var(--muted)">ครั้งที่ ${r.round} พร้อมความก้าวหน้าครั้งที่ 1–4 และคำที่ต้องแก้ไข</p><div class="scroll"><table><thead><tr><th>อันดับ</th><th>${head}</th><th>นักเรียนทั้งหมด</th><th>เข้าสอบ</th><th>ร้อยละเข้าสอบ</th><th>ร้อยละเฉลี่ย</th><th>เร่งพัฒนา</th><th>ครั้ง 1</th><th>ครั้ง 2</th><th>ครั้ง 3</th><th>ครั้ง 4</th><th>ก้าวหน้า</th><th>คำที่ต้องแก้ไข</th></tr></thead><tbody>
+    ${r.rows.map(x => `<tr><td><b>${x.rank || '–'}</b></td><td>${esc(x.name)}</td><td>${x.enrolled ?? '–'}</td><td>${x.missing ? '<span style="color:var(--muted)">ยังไม่ส่งผล</span>' : x.tested}</td><td>${pctTxt(x.testedPct)}</td><td><b>${pctTxt(x.avgPct)}</b></td><td>${numTxt(x.below)}</td>${(x.progress || [null, null, null, null]).map(v => `<td>${pctTxt(v)}</td>`).join('')}<td>${chg(x.change)}</td><td>${esc((x.weak || []).join(', '))}</td></tr>`).join('')}</tbody></table></div></div>`;
 }
 function schoolsPanel(r){
   if (!r.schools || !r.schools.length) return '';
   const area = r.level === 'area', sent = r.schools.filter(x => !x.missing);
   return `<div class="card" style="margin-top:16px"><h3 style="margin:0 0 4px">ผลรายโรงเรียน${area ? 'ทั้งเขต' : 'ในเครือข่าย'} เรียงลำดับคะแนน (มุมมอง ศน.)</h3>
     <p style="margin:0 0 10px;font-size:14px;color:var(--muted)">ครั้งที่ ${r.round} ส่งผลแล้ว ${sent.length} จาก ${r.schools.length} โรงเรียน</p>
-    <div class="scroll" style="max-height:560px;overflow:auto"><table><thead><tr><th>อันดับ</th><th>โรงเรียน</th>${area ? '<th>เครือข่าย</th>' : ''}<th>ผู้สอบ</th><th>ตอน 1</th><th>ตอน 2</th><th>ร้อยละเฉลี่ย</th><th>เร่งพัฒนา</th><th>ครั้ง 1</th><th>ครั้ง 2</th><th>ครั้ง 3</th><th>ครั้ง 4</th><th>ก้าวหน้า</th><th>คำที่ต้องแก้ไข</th></tr></thead><tbody>
-    ${r.schools.map(x => `<tr><td><b>${x.rank || '–'}</b></td><td>${esc(x.name)}</td>${area ? `<td>${esc(x.network)}</td>` : ''}<td>${x.missing ? '<span style="color:var(--muted)">ยังไม่ส่งผล</span>' : x.tested}</td><td>${numTxt(x.avgP1)}</td><td>${numTxt(x.avgP2)}</td><td><b>${pctTxt(x.avgPct)}</b></td><td>${numTxt(x.below)}</td>${(x.progress || [null, null, null, null]).map(v => `<td>${pctTxt(v)}</td>`).join('')}<td>${chg(x.change)}</td><td>${esc((x.weak || []).join(', '))}</td></tr>`).join('')}</tbody></table></div></div>
+    <div class="scroll" style="max-height:560px;overflow:auto"><table><thead><tr><th>อันดับ</th><th>โรงเรียน</th>${area ? '<th>เครือข่าย</th>' : ''}<th>นักเรียนทั้งหมด</th><th>เข้าสอบ</th><th>ร้อยละเข้าสอบ</th><th>ตอน 1</th><th>ตอน 2</th><th>ร้อยละเฉลี่ย</th><th>เร่งพัฒนา</th><th>ครั้ง 1</th><th>ครั้ง 2</th><th>ครั้ง 3</th><th>ครั้ง 4</th><th>ก้าวหน้า</th><th>คำที่ต้องแก้ไข</th></tr></thead><tbody>
+    ${r.schools.map(x => `<tr><td><b>${x.rank || '–'}</b></td><td>${esc(x.name)}</td>${area ? `<td>${esc(x.network)}</td>` : ''}<td>${x.enrolled ?? '–'}</td><td>${x.missing ? '<span style="color:var(--muted)">ยังไม่ส่งผล</span>' : x.tested}</td><td>${pctTxt(x.testedPct)}</td><td>${numTxt(x.avgP1)}</td><td>${numTxt(x.avgP2)}</td><td><b>${pctTxt(x.avgPct)}</b></td><td>${numTxt(x.below)}</td>${(x.progress || [null, null, null, null]).map(v => `<td>${pctTxt(v)}</td>`).join('')}<td>${chg(x.change)}</td><td>${esc((x.weak || []).join(', '))}</td></tr>`).join('')}</tbody></table></div></div>
   ${sent.length ? `<div class="card" style="margin-top:16px"><h3 style="margin:0 0 4px">ร้อยละนักเรียนที่อ่านได้ รายคำ แยกรายโรงเรียน</h3><p style="margin:0 0 10px;font-size:14px;color:var(--muted)">ช่องสีแดงคือคำที่อ่านได้ต่ำกว่าร้อยละ ${r.threshold}</p>
     <div class="scroll" style="max-height:560px;overflow:auto"><table class="mx"><thead><tr><th>โรงเรียน</th>${r.words.map(w => `<th>${esc(w.text)}</th>`).join('')}</tr></thead><tbody>
     ${sent.map(x => `<tr><td style="white-space:nowrap">${esc(x.name)}</td>${x.wordPct.map(p => `<td${p !== null && p < r.threshold ? ' class="no"' : ''}>${p === null ? '–' : Math.round(p)}</td>`).join('')}</tr>`).join('')}</tbody></table></div></div>` : ''}`;
@@ -2377,7 +2414,7 @@ function renderDash(r){
   let h = `<div class="card soft-bg" style="border:none;margin-bottom:14px"><b style="font-size:20px">${esc(r.title)}</b><br><span style="color:var(--muted)">ครั้งที่ ${r.round} ปีการศึกษา ${r.year}${r.level !== 'area' && r.areaAvg !== null && r.areaAvg !== undefined ? '  ค่าเฉลี่ยระดับเขต ' + pctTxt(r.areaAvg) : ''}</span></div>`;
   h += `<div class="kpis">
       ${r.level !== 'school' ? `<div class="kpi" style="--bg:#FFD6E7;--t:#6E0F38"><span>โรงเรียนที่ส่งผล</span><b>${r.schoolsSubmitted} / ${r.schoolsTotal}</b></div>` : ''}
-      <div class="kpi" style="--bg:#E6DCFF;--t:#35227A"><span>นักเรียน ${(EXF[(r.exam || {}).id] || EXF.rt1).grade} ที่สอบ</span><b>${s.tested}</b><small>${r.enrolled ? 'จาก ' + r.enrolled + ' คนที่ลงทะเบียน' : ''}</small></div>
+      ${enrCards(r).map(k => `<div class="kpi" style="--bg:${k[3]};--t:${k[4]}"><span>${k[0]}${k[0] === 'นักเรียนทั้งหมด' ? ' ' + (EXF[(r.exam || {}).id] || EXF.rt1).grade : ''}</span><b>${k[1]}</b><small>${esc(k[2])}</small></div>`).join('')}
       <div class="kpi" style="--bg:#FFF2B8;--t:#5E4300"><span>คะแนนเฉลี่ย</span><b>${pctTxt(s.avgPct)}</b></div>
       <div class="kpi" style="--bg:#CDF3E4;--t:#0A4A38"><span>อ่านได้ครบ ${W} คำ</span><b>${s.tested ? pctTxt(s.allWords / s.tested * 100) : '–'}</b></div></div>`;
   if (!s.tested) h += '<div class="empty" style="margin-top:16px">ยังไม่มีผลการสอบในครั้งนี้</div>';
@@ -2544,7 +2581,7 @@ function spGrades(){ const ext = SPS.me && SPS.me.level === 'extended'; return S
 function spSetHtml(){
   const me = SPS.me, c = me.counts || { data: {} }, gs = spGrades(), lock = !me.approved || SPS.year !== SPS.meta.year;
   const v = (i, g) => ((c.data[i] || {})[g]) || '';
-  return `${!me.approved ? '<div class="msg warn">บัญชีรอ ศน. อนุมัติ จึงยังส่งข้อมูลไม่ได้</div>' : SPS.year !== SPS.meta.year ? `<div class="msg warn">ปีการศึกษา ${esc(SPS.year)} ดูข้อมูลได้อย่างเดียว</div>` : ''}
+  return `${!me.approved ? '<div class="msg warn">บัญชีนี้ถูกระงับการใช้งาน จึงยังส่งข้อมูลไม่ได้</div>' : SPS.year !== SPS.meta.year ? `<div class="msg warn">ปีการศึกษา ${esc(SPS.year)} ดูข้อมูลได้อย่างเดียว</div>` : ''}
   <div class="sp-sec"><h3>จำนวนนักเรียนที่มีความต้องการพิเศษ ปีการศึกษา ${esc(SPS.year)}</h3>
     <p class="sub" style="margin:0 0 12px;font-size:15px">กรอกจำนวนตามที่บันทึกในระบบ SET แยกตามประเภทความพิการและชั้น ช่องที่ไม่มีให้เว้นว่าง ${c.updated ? `<br><b style="color:#0F665E">บันทึกล่าสุด ${esc(thDateText(String(c.updated).slice(0, 10)))}</b>` : ''}</p>
     <div class="scroll"><table class="sp-tb" id="spTb"><thead><tr><th class="l">ประเภทความพิการ</th>${gs.map(g => `<th>${g}</th>`).join('')}<th>รวม</th></tr></thead><tbody>
@@ -2580,7 +2617,7 @@ function spDocHtml(kind){
   const me = SPS.me, docs = me.docs.filter(d => d.kind === kind), T = SP_DOCTXT[kind], lock = !me.approved || SPS.year !== SPS.meta.year;
   const ed = SPS.edit && SPS.edit.kind === kind ? SPS.edit : (kind === 'order' && docs[0] ? docs[0] : null);
   const P = kind === 'project';
-  let h = lock ? `<div class="msg warn">${!me.approved ? 'บัญชีรอ ศน. อนุมัติ จึงยังส่งเอกสารไม่ได้' : `ปีการศึกษา ${esc(SPS.year)} ดูข้อมูลได้อย่างเดียว`}</div>` : '';
+  let h = lock ? `<div class="msg warn">${!me.approved ? 'บัญชีนี้ถูกระงับการใช้งาน จึงยังส่งเอกสารไม่ได้' : `ปีการศึกษา ${esc(SPS.year)} ดูข้อมูลได้อย่างเดียว`}</div>` : '';
   if (!lock && (kind !== 'project' || !docs.length || ed || SPS.edit === 'new')) h += `<div class="sp-sec"><h3>${ed ? (kind === 'order' ? 'ส่งคำสั่งฉบับใหม่ (แทนที่ฉบับเดิม)' : 'แก้ไข / ส่งไฟล์ใหม่') : T.h}</h3>
     <p class="sub" style="margin:0 0 12px;font-size:15px">${T.d}</p>
     <label for="spDt">${P ? 'ชื่อโครงการ' : 'ชื่อเอกสาร'}</label><input id="spDt" placeholder="${esc(T.ti)}" value="${esc(ed ? ed.title : '')}">
