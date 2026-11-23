@@ -7,7 +7,7 @@
 <meta name="description" content="ห้องนิเทศก์ออนไลน์ ศน.ปิยะธิดา ช่างประเสริฐ ศึกษานิเทศก์ชำนาญการพิเศษ สพป.สุรินทร์ เขต 1">
 <script>
 /* ===== ตั้งค่าที่เดียว: ลิงก์ Web app ของ Apps Script (ลงท้ายด้วย /exec) อยู่ระหว่างเครื่องหมาย ' ' ===== */
-window.API_URL = 'https://script.google.com/a/macros/srn1.go.th/s/AKfycbxvJ9e0INQLbIJOPvMvdIPB8nVhwKNes90YWP5i0Rq_WvTUw9yDV7ElAfwv4n3O12domA/exec';
+window.API_URL = 'https://script.google.com/a/macros/srn1.go.th/s/AKfycbxbx7-5jJdoNHCBFhREePtsn-cSSTxX9VxOe9RRNzXCD-qk0HoBROffD5UzNG0ML-f6gw/exec';
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -399,6 +399,9 @@ dialog::backdrop{background:rgba(43,27,36,.45)}
   .grid-wrap{max-height:62vh}
   .rtgrid .c1{min-width:118px;max-width:140px;font-size:14px}
   .rtgrid thead th.w{min-width:52px}
+  .rtgrid .fillall small{display:none}
+  .rtgrid .fillall{gap:2px}
+  .rtgrid .fillall button{min-width:26px;min-height:30px;padding:2px 4px}
   .brand{flex:1 1 0}
   .enacts{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}
   .grpbox{flex:0 0 auto;flex-wrap:nowrap}
@@ -414,6 +417,10 @@ dialog::backdrop{background:rgba(43,27,36,.45)}
   .grpbox>b{display:none}
   .grpbox{padding:6px;border-radius:12px}
 }
+.rtgrid .fillall{display:flex;align-items:center;gap:3px;white-space:nowrap;margin:2px 0 4px}
+.rtgrid .fillall small{font-size:11.5px;color:var(--muted);margin-right:2px}
+.rtgrid .fillall button{min-width:30px;min-height:30px;font-weight:700;font-size:13px;margin:0;padding:2px 6px;border-radius:7px;border:1px solid #A6DDD4;cursor:pointer;font-family:inherit;width:auto}
+.rtgrid .fillall button.s3{background:#E3F7EF;border-color:#8FD3BC}.rtgrid .fillall button.s2{background:#EAF6E1;border-color:#B5DC9B}.rtgrid .fillall button.s1{background:#FFF4D6;border-color:#EBCB6B;color:#5E4300}.rtgrid .fillall button.s0{background:#FDE8EA;border-color:#E9B4B3;color:#7A1F2A}
 </style>
 
 </head>
@@ -1839,7 +1846,7 @@ function renderGrid(){
     const r = EN.rows[s.id], c = rowCalc(s.id), dis = lock || r.absent ? 'disabled' : '';
     const cells = P1 ? r.w.map((v, i) => `<td><button type="button" class="cell ${v === 1 ? 'ok' : v === 0 ? 'no' : ''}" ${dis} aria-label="${esc(s.name)} ${X.p2 ? 'คำ ' + esc(d.words[i].text) : 'ข้อ ' + (i + 1)}: ${v === 1 ? X.ok : v === 0 ? X.no : 'ยังไม่บันทึก'}" onclick="tapCell('${s.id}',${i})">${v === 1 ? ICO_FLOWER : v === 0 ? ICO_BUD : '·'}</button></td>`)
                      : r.s.map((v, i) => `<td><select class="${v === null ? '' : 's' + v}" ${dis} aria-label="${esc(s.name)} ประโยคที่ ${i + 1}" onchange="setSent('${s.id}',${i},this.value)"><option value=""${v === null ? ' selected' : ''}>–</option>${[3, 2, 1, 0].map(o => `<option value="${o}"${v === o ? ' selected' : ''}>${o}</option>`).join('')}</select></td>`);
-    h += `<tr class="${r.absent ? 'absent' : ''}"><td class="c0"><b>${s.no}</b></td><td class="c1"><button type="button" onclick="openEditStu('${s.id}')" title="แก้ไขข้อมูลนักเรียน">${esc(s.name)}${badge(c, W).replace('kid-badge', 'kid-badge' + (EN.cheer === s.id ? ' pop' : ''))}${EN.dirty.has(s.id) ? '<small style="color:var(--pink-d)">● ยังไม่บันทึก</small>' : ''}</button></td>
+    h += `<tr class="${r.absent ? 'absent' : ''}"><td class="c0"><b>${s.no}</b></td><td class="c1"><button type="button" onclick="openEditStu('${s.id}')" title="แก้ไขข้อมูลนักเรียน">${esc(s.name)}${badge(c, W).replace('kid-badge', 'kid-badge' + (EN.cheer === s.id ? ' pop' : ''))}${EN.dirty.has(s.id) ? '<small style="color:var(--pink-d)">● ยังไม่บันทึก</small>' : ''}</button>${!P1 && !lock && !r.absent ? `<span class="fillall"><small>ทั้งแถว</small>${[3, 2, 1, 0].map(v => `<button type="button" class="s${v}" onclick="fillSent('${s.id}',${v})" aria-label="${esc(s.name)} ให้ ${v} คะแนนทุกประโยค">${v}</button>`).join('')}</span>` : ''}</td>
       <td><input type="checkbox" ${lock ? 'disabled' : ''} ${r.absent ? 'checked' : ''} aria-label="${esc(s.name)} ขาดสอบ" onchange="setAbsent('${s.id}',this.checked)" style="width:20px;height:20px;accent-color:var(--pink)"></td>
       ${cells.join('')}<td class="sum">${r.absent ? '–' : c.p1}</td>${X.p2 ? `<td class="sum">${r.absent ? '–' : c.p2}</td>` : ''}<td class="sum"><b>${r.absent || !c.complete ? '–' : pctTxt(c.pct)}</b></td>
       <td class="sum">${r.absent ? 'ขาดสอบ' : c.complete ? '<span class="tag-ok">ครบ</span>' : c.started ? '<span class="tag-part">ยังไม่ครบ</span>' : '–'}</td>
@@ -1869,6 +1876,7 @@ function touch(id){ EN.dirty.add(id); const c = rowCalc(id), W = EN.data.words.l
 function tapCell(id, i){ const r = EN.rows[id]; r.w[i] = r.w[i] === 1 ? 0 : 1; touch(id); }
 function setSent(id, i, v){ EN.rows[id].s[i] = v === '' ? null : +v; touch(id); }
 function setAbsent(id, on){ EN.rows[id].absent = on; touch(id); }
+function fillSent(id, v){ EN.rows[id].s = EN.rows[id].s.map(() => v); touch(id); }
 function fillRow(id, v){ const r = EN.rows[id]; r.w = r.w.map(x => v === 1 ? 1 : (x === null ? 0 : x)); touch(id); }
 async function saveGrid(){
   if (enLocked() || !EN.dirty.size) return toast(EN.dirty.size ? 'บันทึกไม่ได้ในรอบนี้' : 'ไม่มีข้อมูลที่ต้องบันทึก');
