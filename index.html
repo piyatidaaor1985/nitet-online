@@ -7,7 +7,7 @@
 <meta name="description" content="ห้องนิเทศก์ออนไลน์ ศน.ปิยะธิดา ช่างประเสริฐ ศึกษานิเทศก์ชำนาญการพิเศษ สพป.สุรินทร์ เขต 1">
 <script>
 /* ===== ตั้งค่าที่เดียว: ลิงก์ Web app ของ Apps Script (ลงท้ายด้วย /exec) อยู่ระหว่างเครื่องหมาย ' ' ===== */
-window.API_URL = 'https://script.google.com/a/macros/srn1.go.th/s/AKfycbxbx7-5jJdoNHCBFhREePtsn-cSSTxX9VxOe9RRNzXCD-qk0HoBROffD5UzNG0ML-f6gw/exec';
+window.API_URL = 'https://script.google.com/a/macros/srn1.go.th/s/AKfycbynvHWryEgm5nJUkPcX7J5iIl1yu_-5dCi57HzRhAV1Bb06Vnucyz5VD0kQ0h1m0oCu-g/exec';
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -421,6 +421,17 @@ dialog::backdrop{background:rgba(43,27,36,.45)}
 .rtgrid .fillall small{font-size:11.5px;color:var(--muted);margin-right:2px}
 .rtgrid .fillall button{min-width:30px;min-height:30px;font-weight:700;font-size:13px;margin:0;padding:2px 6px;border-radius:7px;border:1px solid #A6DDD4;cursor:pointer;font-family:inherit;width:auto}
 .rtgrid .fillall button.s3{background:#E3F7EF;border-color:#8FD3BC}.rtgrid .fillall button.s2{background:#EAF6E1;border-color:#B5DC9B}.rtgrid .fillall button.s1{background:#FFF4D6;border-color:#EBCB6B;color:#5E4300}.rtgrid .fillall button.s0{background:#FDE8EA;border-color:#E9B4B3;color:#7A1F2A}
+/* ----- สถิติการเข้าใช้งาน ----- */
+.vstat{flex-basis:100%;display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;font-size:14px;padding-top:10px;border-top:1px solid rgba(255,255,255,.15)}
+.vstat span{opacity:.85;margin-right:2px}
+.vstat b{font-weight:600;background:rgba(255,255,255,.1);border-radius:999px;padding:2px 12px;color:#fff}
+.stleg{display:flex;gap:16px;font-size:14px;color:var(--muted);margin-bottom:8px}
+.stleg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.stbars{display:flex;align-items:stretch;gap:3px;height:200px;overflow-x:auto;padding-bottom:2px}
+.stcol{flex:1 0 14px;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:14px}
+.stpair{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:2px;border-bottom:1px solid var(--line)}
+.stpair i{display:block;width:45%;max-width:12px;min-height:1px;border-radius:3px 3px 0 0}
+.stcol small{font-size:11px;color:var(--muted);height:14px;white-space:nowrap}
 </style>
 
 </head>
@@ -730,6 +741,7 @@ dialog::backdrop{background:rgba(43,27,36,.45)}
       <button role="tab" data-at="ct" onclick="adminTab('ct')">เนื้อหาเว็บ</button>
       <button role="tab" data-at="rt" onclick="adminTab('rt')">ข้อสอบ</button>
       <button role="tab" data-at="rp" onclick="adminTab('rp')">แจ้งปัญหา<span class="badge hide" id="rpBadge"></span></button>
+      <button role="tab" data-at="st" onclick="adminTab('st')">สถิติ</button>
       <button role="tab" data-at="set" onclick="adminTab('set')">ตั้งค่า</button>
     </div>
     <div id="aErr"></div>
@@ -826,6 +838,20 @@ dialog::backdrop{background:rgba(43,27,36,.45)}
           <label class="grp" style="flex:0 0 auto;display:flex;gap:8px;align-items:center"><b>แสดง</b><select id="rpFilter" style="width:auto" onchange="renderReports()"><option value="open">ยังไม่เสร็จ</option><option value="">ทั้งหมด</option><option value="done">แก้ไขแล้ว</option></select></label></div>
         <div class="scroll" style="margin-top:12px"><table><thead><tr><th>วันที่</th><th>ผู้แจ้ง</th><th>เรื่อง</th><th>รายละเอียด</th><th>สถานะ / บันทึก ศน.</th></tr></thead><tbody id="rpList"></tbody></table></div>
       </div>
+    </div>
+
+    <div id="at-st" class="hide">
+      <div class="row" style="align-items:center;margin-bottom:12px"><h3 style="margin:0;flex:1 1 240px;font-size:22px">สถิติการเข้าใช้งาน</h3>
+        <label class="grp" style="flex:0 0 auto;display:flex;gap:8px;align-items:center"><b>ย้อนหลัง</b><select id="stDays" style="width:auto" onchange="loadStats()"><option value="7">7 วัน</option><option value="30" selected>30 วัน</option><option value="90">90 วัน</option></select></label></div>
+      <div id="mSt"></div>
+      <div class="kpis" id="stKpi"></div>
+      <div class="card" style="margin-top:16px"><h3 style="margin:0 0 6px">ผู้เข้าชมและการเข้าสู่ระบบรายวัน</h3><div id="stChart"></div></div>
+      <div class="row" style="margin-top:16px;align-items:stretch">
+        <div class="card" style="flex:999 1 520px"><h3 style="margin:0 0 10px">การเข้าใช้งานรายเครือข่าย</h3>
+          <div class="scroll"><table><thead><tr><th style="text-align:left">เครือข่าย</th><th>ลงทะเบียน</th><th>เข้าใน 7 วัน</th><th>เข้าใน 30 วัน</th><th>ยังไม่เคยเข้า</th><th>สัดส่วนที่เข้าใช้ (30 วัน)</th></tr></thead><tbody id="stNet"></tbody></table></div></div>
+        <div class="card" style="flex:1 1 300px"><h3 style="margin:0 0 6px">เข้าสู่ระบบล่าสุด</h3><div id="stRecent"></div></div>
+      </div>
+      <div class="card" style="margin-top:16px"><h3 style="margin:0 0 4px">ลงทะเบียนแล้วแต่ยังไม่เคยเข้าใช้งาน</h3><p class="sub" style="margin:0 0 6px;font-size:14.5px">โทรติดตามได้จากแท็บจัดการโรงเรียน</p><div id="stNever"></div></div>
     </div>
 
     <div id="at-set" class="hide">
@@ -973,7 +999,7 @@ dialog::backdrop{background:rgba(43,27,36,.45)}
 <div id="reportDoc" aria-hidden="true"></div>
 </main>
 
-<footer><div class="wrap"><div><b style="font-family:Prompt,sans-serif;color:#fff">ห้องนิเทศก์ออนไลน์ ศน.ปิยะธิดา ช่างประเสริฐ</b><br>ศึกษานิเทศก์ชำนาญการพิเศษ สพป.สุรินทร์ เขต 1</div><div>ข้อมูลใช้เพื่อการนิเทศ ติดตาม และจัดทำสารสนเทศเท่านั้น<br><a href="#" style="color:#FFC2DA" onclick="openReport();return false">แจ้งปัญหาการใช้งาน</a></div></div></footer>
+<footer><div class="wrap"><div><b style="font-family:Prompt,sans-serif;color:#fff">ห้องนิเทศก์ออนไลน์ ศน.ปิยะธิดา ช่างประเสริฐ</b><br>ศึกษานิเทศก์ชำนาญการพิเศษ สพป.สุรินทร์ เขต 1</div><div>ข้อมูลใช้เพื่อการนิเทศ ติดตาม และจัดทำสารสนเทศเท่านั้น<br><a href="#" style="color:#FFC2DA" onclick="openReport();return false">แจ้งปัญหาการใช้งาน</a></div><div class="vstat hide" id="visitStats" aria-live="polite"></div></div></footer>
 <button class="btn primary helpfab" onclick="openReport()" aria-label="แจ้งปัญหาการใช้งาน">💬 แจ้งปัญหา</button>
 
 <div class="reader hide" id="reader" role="dialog" aria-label="โหมดอ่านทีละคำ">
@@ -1502,7 +1528,8 @@ async function doChangePw(e){
 /* ---------- ศน. ---------- */
 function adminTab(t){
   document.querySelectorAll('[data-at]').forEach(b => b.classList.toggle('on', b.dataset.at === t));
-  ['ov','reg','db','ct','rt','rp','set'].forEach(x => $('at-' + x).classList.toggle('hide', x !== t));
+  ['ov','reg','db','ct','rt','rp','st','set'].forEach(x => $('at-' + x).classList.toggle('hide', x !== t));
+  if (t === 'st') loadStats();
   if (t === 'rt') loadRTEdit();
   if (t === 'set') loadRTConfig();
   if (t === 'ct') renderCt();
@@ -2792,8 +2819,49 @@ async function copyText(id){
   catch(e){ const r = document.createRange(); r.selectNodeContents($(id)); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast('เลือกข้อความแล้ว กด Ctrl+C เพื่อคัดลอก'); }
 }
 
+
+/* ---------- สถิติการเข้าใช้งาน ---------- */
+const nf = n => Number(n || 0).toLocaleString('th-TH');
+function showVisits(s){
+  if (!s || !$('visitStats')) return;
+  $('visitStats').innerHTML = `<span>ผู้เข้าชม</span><b>วันนี้ ${nf(s.today)}</b><b>เดือนนี้ ${nf(s.month)}</b><b>ทั้งหมด ${nf(s.total)}</b>`;
+  $('visitStats').classList.remove('hide');
+}
+function trackVisit(){
+  let isNew = false, seen = false;
+  try { isNew = !localStorage.getItem('ntk_v'); localStorage.setItem('ntk_v', '1'); } catch(e){}
+  try { seen = !!sessionStorage.getItem('ntk_s'); sessionStorage.setItem('ntk_s', '1'); } catch(e){}
+  (seen ? api('getVisitStats') : api('trackVisit', isNew)).then(showVisits).catch(() => {});
+}
+async function loadStats(){
+  msg('mSt'); $('stKpi').innerHTML = '<p style="color:var(--muted)">กำลังโหลด…</p>';
+  try {
+    const s = await api('adminStats', store.get(), +$('stDays').value || 30), v = s.summary;
+    showVisits(v);
+    const sumD = k => s.daily.reduce((a, d) => a + d[k], 0);
+    const k = [['ผู้เข้าชมวันนี้', nf(v.today), `เดือนนี้ ${nf(v.month)}`, '#FFD6E7', '#6E0F38'],
+      [`ผู้เข้าชม ${s.days} วัน`, nf(sumD('visits')), `ทั้งหมด ${nf(v.total)} ครั้ง ตั้งแต่ ${thDateText(v.since)}`, '#D3ECFF', '#0B4170'],
+      ['ผู้เข้าชมใหม่ (เครื่อง)', nf(v.visitors), `${s.days} วันล่าสุด ${nf(sumD('visitors'))}`, '#E6DCFF', '#35227A'],
+      [`โรงเรียนเข้าสู่ระบบ ${s.days} วัน`, nf(sumD('logins')) + ' ครั้ง', `เข้าใช้ใน 7 วัน ${s.active7} โรง · 30 วัน ${s.active30} โรง`, '#CDF3E4', '#0A4A38'],
+      ['ลงทะเบียนแต่ยังไม่เคยเข้า', s.never + ' โรง', `ยังไม่ลงทะเบียน ${s.noreg} จาก ${s.schoolsTotal} โรง`, '#FFF2B8', '#5E4300']];
+    $('stKpi').innerHTML = k.map(x => `<div class="kpi" style="--bg:${x[3]};--t:${x[4]}"><span>${x[0]}</span><b>${x[1]}</b><small>${esc(x[2])}</small></div>`).join('');
+    const mx = Math.max(1, ...s.daily.map(d => Math.max(d.visits, d.logins))), step = s.days > 31 ? 7 : s.days > 10 ? 3 : 1;
+    $('stChart').innerHTML = `<div class="stleg"><span><i style="background:#F0418A"></i>ผู้เข้าชม</span><span><i style="background:#1F9E8F"></i>โรงเรียนเข้าสู่ระบบ</span></div>
+      <div class="stbars" role="img" aria-label="กราฟผู้เข้าชมและการเข้าสู่ระบบรายวัน">${s.daily.map((d, i) => `<div class="stcol" title="${thDateText(d.date)}  ผู้เข้าชม ${d.visits}  เข้าสู่ระบบ ${d.logins}">
+        <div class="stpair"><i style="height:${d.visits / mx * 100}%;background:#F0418A"></i><i style="height:${d.logins / mx * 100}%;background:#1F9E8F"></i></div>
+        <small>${i % step === 0 || i === s.daily.length - 1 ? +d.date.slice(8) + '/' + +d.date.slice(5, 7) : ''}</small></div>`).join('')}</div>`;
+    $('stNet').innerHTML = s.networks.map(n => { const p = n.registered ? Math.round(n.d30 / n.registered * 100) : 0;
+      return `<tr><td style="text-align:left">${esc(n.network)}</td><td>${n.registered}/${n.total}</td><td>${n.d7}</td><td>${n.d30}</td><td>${n.never || ''}</td><td style="width:26%"><div class="meter" title="${p}%"><i style="width:${p}%"></i></div></td></tr>`; }).join('');
+    $('stRecent').innerHTML = s.recent.length ? s.recent.map(x => `<div style="display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid #F8E6EE;font-size:15px"><span>${esc(x.name)}<br><small style="color:var(--muted)">${esc(x.network)}</small></span><small style="white-space:nowrap;color:var(--muted)">${esc(thDateText(x.lastText.slice(0, 10)))} ${esc(x.lastText.slice(11))}</small></div>`).join('') : '<p style="color:var(--muted)">ยังไม่มีการเข้าสู่ระบบ</p>';
+    const nev = s.schools.filter(x => x.st === 'never'), g = {};
+    nev.forEach(x => (g[x.network] = g[x.network] || []).push(x.name));
+    $('stNever').innerHTML = nev.length ? Object.keys(g).sort((a, b) => a.localeCompare(b, 'th')).map(n => `<p style="margin:8px 0 4px;font-weight:600">${esc(NET_FULL + n)} <small style="color:var(--muted)">(${g[n].length})</small></p><div style="display:flex;flex-wrap:wrap;gap:6px">${g[n].map(x => `<span class="chip">${esc(x)}</span>`).join('')}</div>`).join('')
+      : '<p style="color:var(--ok);margin:0">ทุกโรงเรียนที่ลงทะเบียนเข้าใช้งานแล้ว</p>';
+  } catch(e){ $('stKpi').innerHTML = ''; msg('mSt', e.message); }
+}
+
 /* ---------- เริ่มต้น ---------- */
-roomCards('roomsHome', MAIN_ROOMS); roomCards('roomsThai', THAI_ROOMS); loadContent();
+roomCards('roomsHome', MAIN_ROOMS); roomCards('roomsThai', THAI_ROOMS); loadContent(); trackVisit();
 api('getHomeStats').then(s => {
   $('stSchools').textContent = s.schools; $('stNets').textContent = s.networks; $('stReg').textContent = s.registered;
   if (!s.schools) msg('homeErr', 'ยังไม่พบรายชื่อโรงเรียนในแท็บ Schools', 'warn');
