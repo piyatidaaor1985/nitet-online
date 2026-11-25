@@ -1048,8 +1048,11 @@ dialog::backdrop{background:rgba(43,27,36,.45)}
   <div id="dcEmbBox" class="hide" style="margin-top:12px"><label for="dcH">ความสูงของกรอบ (พิกเซล)</label><input id="dcH" type="number" min="200" max="2000" step="20" style="max-width:180px"><small style="color:var(--muted)"> วิดีโอ 400–480, สไลด์ 480–560, ฟอร์มหรือแดชบอร์ด 800 ขึ้นไป</small></div>
   <div id="dcLinkBox" style="margin-top:12px"><label for="dcLink" id="dcLinkLbl">ลิงก์ไฟล์หรือเว็บไซต์ (ถ้ามี)</label><input id="dcLink" placeholder="https://drive.google.com/...">
     <div id="dcUpBox" class="hide" style="margin-top:6px"><label class="btn soft sm" style="display:inline-flex;margin:0">อัปโหลดไฟล์จากเครื่อง (PDF, Word, PowerPoint, รูป ไม่เกิน 20 MB)<input type="file" class="hide" onchange="spKbUpload(this)"></label></div></div>
-  <div style="margin-top:12px"><label for="dcImg" id="dcImgLbl">ลิงก์รูปจาก Google Drive</label><input id="dcImg" placeholder="วางลิงก์แชร์ของรูป">
-    <small style="color:var(--muted)">ที่ไฟล์รูปใน Drive กด แชร์ > ทุกคนที่มีลิงก์ > คัดลอกลิงก์ แล้ววางที่นี่</small></div>
+  <div style="margin-top:12px"><label for="dcImg" id="dcImgLbl">ลิงก์รูปจาก Google Drive</label>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><input id="dcImg" placeholder="วางลิงก์แชร์ของรูป" style="flex:1 1 240px" oninput="imgPrev()">
+      <label class="btn soft sm" style="margin:0;flex:0 0 auto">อัปโหลดรูปจากเครื่อง<input type="file" accept="image/*" class="hide" onchange="uploadCover(this)"></label></div>
+    <img id="dcImgPrev" alt="ตัวอย่างรูป" class="hide" onerror="this.classList.add('hide')" style="display:block;margin-top:8px;max-width:180px;max-height:120px;border-radius:10px;object-fit:cover">
+    <small id="dcImgHint" style="color:var(--muted)">กดปุ่ม <b>อัปโหลดรูปจากเครื่อง</b> ง่ายที่สุด หรือวางลิงก์แชร์ของไฟล์รูปใน Drive (ทุกคนที่มีลิงก์ดูได้)</small></div>
   <label id="dcPinBox" style="display:flex;gap:10px;align-items:center;margin-top:12px;font-weight:400"><input id="dcPin" type="checkbox" style="width:20px;height:20px;accent-color:var(--pink)">ปักหมุดไว้บนสุด</label>
   <div class="actions" style="margin-top:18px"><button class="btn primary" id="bDc">บันทึก</button><button type="button" class="btn soft" onclick="dContent.close()">ยกเลิก</button></div>
   <div id="mDc"></div>
@@ -1299,7 +1302,8 @@ function renderLinks(){
 }
 function renderAlbumLinks(){
   $('albumLinks').innerHTML = CONTENT.albums.map((a, i) => { const c = CANDY[i % CANDY.length];
-    return `<a class="alb" href="${esc(a.link)}" target="_blank" rel="noopener"><div class="cv" style="background:${c[0]};color:${c[1]}">${a.imageUrl ? `<img src="${esc(a.imageUrl)}" alt="">` : 'อัลบั้มภาพ'}</div><div class="in"><b>${esc(a.title)}</b><br><small style="color:var(--muted)">${thDateText(a.date)}  เปิดใน Google Photos ↗</small></div></a>`; }).join('');
+    const ph = /photos\.app\.goo\.gl|photos\.google\.com\/(share|album|u\/)/i.test(a.imageUrl || '');
+    return `<a class="alb" href="${esc(a.link)}" target="_blank" rel="noopener"><div class="cv" style="background:${c[0]};color:${c[1]}">${a.imageUrl && !ph ? `<img src="${esc(a.imageUrl)}" alt="" onerror="this.outerHTML='อัลบั้มภาพ'">` : 'อัลบั้มภาพ'}</div><div class="in"><b>${esc(a.title)}</b><br><small style="color:var(--muted)">${thDateText(a.date)}  เปิดใน Google Photos ↗</small></div></a>`; }).join('');
 }
 function renderNews(target, list){
   $(target).innerHTML = list.map(n => { const t = thDate(n.date) || { d:'', m:'', y:'' };
@@ -1690,16 +1694,32 @@ function openContent(id){
   $('dcBodyBox').classList.toggle('hide', ['photo','album','link'].includes(CT)); $('dcLinkBox').classList.toggle('hide', CT === 'photo');
   $('dcDateBox').classList.toggle('hide', CT === 'link');
   $('dcLinkLbl').textContent = CT === 'embed' ? 'วางโค้ดฝัง <iframe> หรือลิงก์ (YouTube, Google Slides/Docs/Sheets/Forms, Drive, Canva, Looker Studio)' : CT === 'album' ? 'ลิงก์แชร์อัลบั้ม Google Photos' : CT === 'link' ? 'ลิงก์เว็บไซต์หน่วยงาน' : 'ลิงก์ไฟล์หรือเว็บไซต์ (ถ้ามี)';
+  imgPrev();
   $('dcImgLbl').textContent = CT === 'link' ? 'ลิงก์รูปโลโก้จาก Google Drive (ใส่หรือไม่ก็ได้)' : CT === 'album' ? 'ลิงก์รูปหน้าปกจาก Google Drive (ใส่หรือไม่ก็ได้)' : 'ลิงก์รูปจาก Google Drive';
   $('dcTitleBox').querySelector('label').textContent = CT === 'photo' ? 'คำบรรยายภาพ' : CT === 'link' ? 'ชื่อหน่วยงาน' : CT === 'album' ? 'ชื่ออัลบั้ม / กิจกรรม' : 'หัวข้อ';
   $('dContent').showModal();
 }
+function imgPrev(){
+  const u = $('dcImg').value.trim(), m = u.match(/(?:\/d\/|id=)([-\w]{20,})/), src = m ? 'https://lh3.googleusercontent.com/d/' + m[1] : u;
+  const bad = /photos\.app\.goo\.gl|photos\.google\.com\/(share|album|u\/)/i.test(u);
+  $('dcImgPrev').classList.toggle('hide', !u || bad); if (u && !bad) $('dcImgPrev').src = src;
+  if (CT === 'album' && (!u || bad)) { $('dcImgHint').innerHTML = '<span style="color:var(--ok)">เว้นว่างได้ ระบบจะดึงรูปปกจากอัลบั้มให้อัตโนมัติเมื่อกดบันทึก (อัลบั้มต้องแชร์แบบมีลิงก์)</span>'; return; }
+  $('dcImgHint').innerHTML = bad ? '<span style="color:var(--err)">นี่คือลิงก์อัลบั้ม ไม่ใช่ลิงก์รูป ใช้ปุ่ม <b>อัปโหลดรูปจากเครื่อง</b> หรือในอัลบั้มให้เปิดรูป คลิกขวา &gt; คัดลอกที่อยู่รูปภาพ</span>'
+    : 'กดปุ่ม <b>อัปโหลดรูปจากเครื่อง</b> ง่ายที่สุด หรือวางลิงก์แชร์ของไฟล์รูปใน Drive (ทุกคนที่มีลิงก์ดูได้)';
+}
+async function uploadCover(inp){
+  const f = inp.files[0]; inp.value = ''; if (!f) return;
+  msg('mDc', 'กำลังอัปโหลดรูป…', 'ok');
+  try { const r = await api('adminUploadCover', store.get(), await shrink(f)); $('dcImg').value = r.url; imgPrev();
+    msg('mDc', r.shared ? 'อัปโหลดรูปแล้ว ใส่ลิงก์ให้อัตโนมัติ' : 'อัปโหลดแล้ว แต่ตั้งให้ทุกคนดูรูปไม่ได้ (นโยบายของบัญชีองค์กร) รูปอาจไม่แสดงกับคนทั่วไป', r.shared ? 'ok' : 'warn'); }
+  catch(e){ msg('mDc', e.message); }
+}
 async function saveContent(e){
   e.preventDefault(); busy('bDc', true);
   try {
-    await api('adminSaveContent', store.get(), { id: CT_EDIT ? CT_EDIT.id : '', type: CT, title:$('dcT').value, date:$('dcDate').value,
+    const r = await api('adminSaveContent', store.get(), { id: CT_EDIT ? CT_EDIT.id : '', type: CT, title:$('dcT').value, date:$('dcDate').value,
       category: CT === 'embed' ? $('dcH').value : $('dcCat').value, body:$('dcBody').value, link:$('dcLink').value, image:$('dcImg').value, pinned:$('dcPin').checked });
-    $('dContent').close(); toast('บันทึกแล้ว'); renderCt(true);
+    $('dContent').close(); toast(r && r.note ? r.note : CT === 'album' && r && r.image && r.image !== $('dcImg').value.trim() ? 'บันทึกแล้ว ดึงรูปปกจากอัลบั้มให้แล้ว' : 'บันทึกแล้ว'); renderCt(true);
   } catch(err){ msg('mDc', err.message); }
   busy('bDc', false);
 }
