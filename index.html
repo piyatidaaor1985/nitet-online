@@ -7,7 +7,7 @@
 <meta name="description" content="ห้องนิเทศก์ออนไลน์ ศน.ปิยะธิดา ช่างประเสริฐ ศึกษานิเทศก์ชำนาญการพิเศษ สพป.สุรินทร์ เขต 1">
 <script>
 /* ===== ตั้งค่าที่เดียว: ลิงก์ Web app ของ Apps Script (ลงท้ายด้วย /exec) อยู่ระหว่างเครื่องหมาย ' ' ===== */
-window.API_URL = 'https://script.google.com/a/macros/srn1.go.th/s/AKfycbynvHWryEgm5nJUkPcX7J5iIl1yu_-5dCi57HzRhAV1Bb06Vnucyz5VD0kQ0h1m0oCu-g/exec';
+window.API_URL = 'https://script.google.com/a/macros/srn1.go.th/s/AKfycbzmt5OZAoZJHTtE0QvziRNTocrjXp8MJY0wvtwi6VGTqc1Y63m5p4IyWSXy2SY4LY2bZA/exec';
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -257,11 +257,15 @@ td input{padding:7px 9px;border-radius:8px}
 .rtgrid td.sum b{font-size:15px}
 .rtgrid .rowtools button{font-size:12px;padding:3px 6px;border-radius:6px;border:1px solid #A6DDD4;background:#E8F6F3;color:#0B4A44;cursor:pointer;margin:2px}
 .tag-ok{color:var(--ok);font-weight:700}.tag-part{color:var(--warn);font-weight:600}
-#reportDoc{display:none;font-family:'TH SarabunPSK','TH Sarabun New',Sarabun,sans-serif}
+/* ฟอนต์ TH Sarabun สำหรับเอกสารพิมพ์: ใช้ของเครื่องก่อน ถ้าไม่มีโหลดจากเว็บ GitHub */
+@font-face{font-family:'TH Sarabun Web';font-weight:400;font-style:normal;src:local('TH SarabunPSK'),local('TH Sarabun PSK'),local('THSarabunPSK'),local('TH Sarabun New'),local('THSarabunNew'),url('https://piyatidaaor1985.github.io/nitet-online/THSarabunNew.ttf') format('truetype')}
+@font-face{font-family:'TH Sarabun Web';font-weight:700;font-style:normal;src:local('TH SarabunPSK Bold'),local('TH Sarabun PSK Bold'),local('THSarabunPSK-Bold'),local('TH Sarabun New Bold'),local('THSarabunNew-Bold'),local('THSarabunNew Bold'),url('https://piyatidaaor1985.github.io/nitet-online/THSarabunNew-Bold.ttf') format('truetype')}
+#reportDoc{display:none;font-family:'TH Sarabun Web','TH SarabunPSK','TH Sarabun New',Sarabun,sans-serif}
 @media print{
-  body[data-print="doc"] *{visibility:hidden}
-  body[data-print="doc"] #reportDoc,body[data-print="doc"] #reportDoc *{visibility:visible}
-  body[data-print="doc"] #reportDoc{display:block;position:absolute;left:0;top:0;width:100%;font-family:'TH SarabunPSK','TH Sarabun New',Sarabun,sans-serif;font-size:16pt;color:#000}
+  body[data-print="doc"]>*:not(main),body[data-print="doc"] main>*:not(#reportDoc){display:none!important}
+  body[data-print="doc"],body[data-print="doc"] main{margin:0!important;padding:0!important;background:#fff!important}
+  body[data-print="doc"] #reportDoc{display:block;position:static;width:100%;max-width:none;font-family:'TH Sarabun Web','TH SarabunPSK','TH Sarabun New',Sarabun,sans-serif;font-size:16pt;color:#000}
+  body[data-print="doc"] #reportDoc table{width:100%!important;max-width:none}
 }
 #reportDoc h2{text-align:center;margin:0;font-size:18pt}
 #reportDoc p.c{text-align:center;margin:2px 0}
@@ -432,6 +436,33 @@ dialog::backdrop{background:rgba(43,27,36,.45)}
 .stpair{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:2px;border-bottom:1px solid var(--line)}
 .stpair i{display:block;width:45%;max-width:12px;min-height:1px;border-radius:3px 3px 0 0}
 .stcol small{font-size:11px;color:var(--muted);height:14px;white-space:nowrap}
+/* ----- แบบฟอร์มทางการ ----- */
+.rpforms{margin:10px 0 4px;padding:10px 12px;border-radius:14px;background:#FFF7FB;border:1px dashed #F1B4CB;gap:8px 14px}
+.rpforms .fgrp{display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center}
+.rpforms .fgrp>span{font-size:14.5px;color:var(--ink2);margin-right:2px}
+#reportDoc .pg{break-after:page;page-break-after:always}
+#reportDoc .pg:last-child{break-after:auto;page-break-after:auto}
+#reportDoc .ln{border-bottom:1px dotted #000;padding:0 6px}
+#reportDoc table.fm th{font-weight:700;vertical-align:middle}
+#reportDoc table.fm th small{font-weight:700;font-size:inherit}
+#reportDoc table.fm th small.x{font-size:10.5pt;font-weight:400}
+#reportDoc table.sm{font-size:13pt}
+#reportDoc table.fm{table-layout:fixed}
+#reportDoc table.fm th,#reportDoc table.fm td{padding:2px 4px;line-height:1.25}
+#reportDoc .pg{font-size:14pt}
+#reportDoc .pg h2{font-size:17pt}
+#reportDoc .pg p{margin:6px 0 0}
+#reportDoc .pg table.fm{font-size:13.5pt;margin-top:4px}
+#reportDoc .pg table.fm td,#reportDoc .pg table.fm th{padding:1px 4px}
+#reportDoc .pg .sign{margin-top:16px}
+/* ----- ครูผู้ประเมิน ----- */
+.evalbar{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin:-6px 0 14px;padding:10px 14px;border-radius:14px;background:#F4FBF9;border:1px solid #BFE6DE}
+.evalbar:empty{display:none}
+.evalbar>b{color:#0B4A44;font-size:15px}
+.evalbar input{width:auto;flex:1 1 200px;max-width:320px;padding:8px 12px}
+.evalbar input#evPos{flex:0 1 180px}
+.evalbar .evwarn{flex-basis:100%;color:var(--warn);font-size:13.5px}
+.evalbar.need{background:#FFF6E5;border-color:#EBCB6B}
 </style>
 
 </head>
@@ -910,6 +941,7 @@ dialog::backdrop{background:rgba(43,27,36,.45)}
         <div class="meter" style="margin-top:4px"><i id="enProg" style="width:0"></i></div>
       </div>
     </div>
+    <div class="evalbar" id="enEvalBar"></div>
     <div class="row" style="align-items:center;margin-bottom:10px">
       <div class="tabs" style="flex:0 0 auto" role="tablist">
         <button role="tab" id="enP1" class="on" onclick="EN.part=1;renderGrid()">ตอนที่ 1 อ่านคำ</button>
@@ -942,6 +974,7 @@ dialog::backdrop{background:rgba(43,27,36,.45)}
         <button class="btn ok" onclick="exportXlsx()">รายงาน Excel (.xlsx)</button>
       </div>
     </div>
+    <div class="actions noprint rpforms" id="rpForms"></div>
     <div class="tabs noprint" id="rpExams" role="tablist" style="margin:4px 0 12px;flex-wrap:wrap"></div>
     <div class="toolbar noprint">
       <div class="tabs" id="rpLevels" role="tablist"></div>
@@ -1869,7 +1902,28 @@ function renderEntry(){
   $('enDate').value = d.testDate || ''; $('enDate').disabled = enLocked();
   $('enRooms').innerHTML = enRooms().map((r, i) => `<button class="chip ${r === EN.room ? 'on' : ''}" data-i="${i}">${esc(r)} <small>(${d.students.filter(x => x.room === r).length} คน)</small></button>`).join(' ') || '<span style="color:var(--muted)">ยังไม่มีห้อง</span>';
   $('enRooms').querySelectorAll('button').forEach(b => b.onclick = () => { EN.room = enRooms()[b.dataset.i]; renderEntry(); });
-  renderGrid();
+  renderEval(); renderGrid();
+}
+/* ---------- ครูผู้ประเมินรายห้อง ---------- */
+function evData(){ return (EN.data && EN.data.evaluators) || (EN.data.evaluators = { now: {}, last: {} }); }
+function evNow(room){ const e = evData().now[room]; return e && e.name ? e : null; }
+function renderEval(){
+  const bar = $('enEvalBar'); if (!bar) return;
+  if (!EN.data || !EN.room || !EN.data.students.some(s => s.room === EN.room) || !EN.data.words.length) { bar.innerHTML = ''; bar.className = 'evalbar'; return; }
+  const now = evNow(EN.room), last = evData().last[EN.room], lock = enLocked(), v = now || last || { name: '', position: '' };
+  bar.className = 'evalbar' + (now ? '' : ' need');
+  bar.innerHTML = `<b>ครูผู้ประเมิน ห้อง ${esc(EN.room)}</b>
+    <input id="evName" value="${esc(v.name || '')}" placeholder="พิมพ์ชื่อ–สกุล ครูผู้ประเมิน" aria-label="ชื่อ–สกุล ครูผู้ประเมิน" ${lock ? 'disabled' : ''} oninput="evDirty()">
+    <input id="evPos" value="${esc(v.position || '')}" placeholder="ตำแหน่ง เช่น ครู คศ.2" aria-label="ตำแหน่ง" ${lock ? 'disabled' : ''} oninput="evDirty()">
+    ${lock ? '' : `<button type="button" class="btn ${now ? 'soft' : 'primary'} sm" id="bEv" onclick="saveEval()">${now ? 'บันทึกแล้ว ✓' : 'บันทึกชื่อผู้ประเมิน'}</button>`}
+    ${now ? '' : `<small class="evwarn">${last && last.name ? 'เติมชื่อจากครั้งก่อนให้แล้ว กดบันทึกเพื่อใช้กับครั้งนี้' : 'ต้องบันทึกชื่อครูผู้ประเมินของห้องนี้ก่อนบันทึกคะแนน (ใช้ลงชื่อในรายงาน)'}</small>`}`;
+}
+function evDirty(){ const b = $('bEv'); if (b) { b.className = 'btn primary sm'; b.textContent = 'บันทึกชื่อผู้ประเมิน'; } }
+async function saveEval(){
+  const name = $('evName').value.trim(), pos = $('evPos').value.trim(), room = EN.room;
+  if (!name) { $('evName').focus(); return toast('กรุณาพิมพ์ชื่อ–สกุล ครูผู้ประเมิน'); }
+  try { const r = await api('schoolSetEvaluator', store.get(), EN.round, EN.year, room, name, pos, EX); evData().now[room] = r; evData().last[room] = r; renderEval(); toast('บันทึกชื่อครูผู้ประเมินแล้ว'); return true; }
+  catch(e){ toast(e.message); return false; }
 }
 function switchRound(r){ if (EN.dirty.size && !confirm('มีผลที่ยังไม่บันทึก ต้องการทิ้งการแก้ไขหรือไม่?')) return; EN.dirty.clear(); EN.round = r; loadEntry(); }
 function renderGrid(){
@@ -1927,7 +1981,11 @@ function fillSent(id, v){ EN.rows[id].s = EN.rows[id].s.map(() => v); touch(id);
 function fillRow(id, v){ const r = EN.rows[id]; r.w = r.w.map(x => v === 1 ? 1 : (x === null ? 0 : x)); touch(id); }
 async function saveGrid(){
   if (enLocked() || !EN.dirty.size) return toast(EN.dirty.size ? 'บันทึกไม่ได้ในรอบนี้' : 'ไม่มีข้อมูลที่ต้องบันทึก');
-  const ids = [...EN.dirty];
+  const ids = [...EN.dirty], roomOf = id => (EN.data.students.find(s => s.id === id) || {}).room;
+  let miss = [...new Set(ids.map(roomOf))].filter(rm => rm && !evNow(rm));
+  if (miss.includes(EN.room) && $('evName') && $('evName').value.trim()) { if (!(await saveEval())) return; miss = miss.filter(rm => rm !== EN.room); }
+  if (miss.length) { if (miss.includes(EN.room) && $('evName')) $('evName').focus();
+    return toast(`กรุณาพิมพ์และบันทึกชื่อครูผู้ประเมิน ห้อง ${miss.join(', ')} ก่อนบันทึกคะแนน`); }
   busy('bSaveAll', true, 'กำลังบันทึก…');
   try {
     await api('schoolSaveRTBatch', store.get(), EN.round, EN.year, ids.map(id => ({ sid: id, absent: EN.rows[id].absent, words: EN.rows[id].w, sentences: EN.rows[id].s })), EX);
@@ -2000,13 +2058,14 @@ async function downloadScoreSheet(){
       const list = d.students.filter(s => s.room === room).sort((a, b) => a.no - b.no);
       const rows = list.map(s => { const r = EN.rows[s.id];
         return [s.no, s.name, r.absent ? 1 : ''].concat(r.w.map(v => v === null ? '' : v), X.p2 ? r.s.map(v => v === null ? '' : v) : [], [s.id]); });
-      const aoa = [[`แบบบันทึกผล ${X.label} ครั้งที่ ${EN.round} ปีการศึกษา ${EN.year}  ${ME.name || ''}`], ['ห้อง', room],
-        [X.p2 ? 'ตอนที่ 1 ใส่ 1 = อ่านได้  0 = อ่านไม่ได้ | ตอนที่ 2 ใส่คะแนนประโยคละ 0–3 | ขาดสอบใส่ 1 | ห้ามแก้ไขคอลัมน์รหัสระบบและห้ามเพิ่มแถว'
-                : 'ใส่ 1 = ตอบถูก  0 = ตอบผิด | ขาดสอบใส่ 1 | ห้ามแก้ไขคอลัมน์รหัสระบบและห้ามเพิ่มแถว'], head].concat(rows);
+      const ev = evNow(room) || evData().last[room] || {};
+      const aoa = [[`แบบบันทึกผล ${X.label} ครั้งที่ ${EN.round} ปีการศึกษา ${EN.year}  ${ME.name || ''}`], ['ห้อง', room, 'ครูผู้ประเมิน', ev.name || '', 'ตำแหน่ง', ev.position || ''],
+        [(X.p2 ? 'ตอนที่ 1 ใส่ 1 = อ่านได้  0 = อ่านไม่ได้ | ตอนที่ 2 ใส่คะแนนประโยคละ 0–3 | ขาดสอบใส่ 1'
+                : 'ใส่ 1 = ตอบถูก  0 = ตอบผิด | ขาดสอบใส่ 1') + ' | พิมพ์ชื่อครูผู้ประเมินในช่องสีเหลือง | ห้ามแก้ไขคอลัมน์รหัสระบบและห้ามเพิ่มแถว'], head].concat(rows);
       const ws = XL.utils.aoa_to_sheet(aoa), last = head.length - 1;
       ws['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: last } }, { s: { r: 2, c: 0 }, e: { r: 2, c: last } }];
       ws['!cols'] = head.map((h, i) => ({ wch: i === 1 ? 26 : i === last ? 16 : i === 0 ? 7 : X.p2 && i > 2 && i < 3 + W ? 9 : 7 }));
-      styleRange(XL, ws, 0, 0, 0, last, { bold: true, sz: 16 }); styleRange(XL, ws, 1, 0, 1, 1, { bold: true });
+      styleRange(XL, ws, 0, 0, 0, last, { bold: true, sz: 16 }); styleRange(XL, ws, 1, 0, 1, 5, { bold: true }); styleRange(XL, ws, 1, 3, 1, 3, { fill: 'FFF6D5', border: true }); styleRange(XL, ws, 1, 5, 1, 5, { fill: 'FFF6D5', border: true });
       styleRange(XL, ws, 2, 0, 2, last, { sz: 13 });
       styleRange(XL, ws, 3, 0, 3, last, { bold: true, border: true, center: true, fill: 'FDE2EC', sz: 13 });
       if (rows.length) { styleRange(XL, ws, 4, 0, 3 + rows.length, last, { border: true, center: true, sz: 14 }); styleRange(XL, ws, 4, 1, 3 + rows.length, 1, { left: true });
@@ -2017,7 +2076,7 @@ async function downloadScoreSheet(){
     toast('ดาวน์โหลดแล้ว กรอกเสร็จให้กด "นำเข้าคะแนน"');
   } catch(e){ toast(e.message); }
 }
-let SCI = null;
+let SCI = null, SCI_EV = {};
 function scVal(v, kind){
   const t = String(v ?? '').trim().replace(/\s+/g, '');
   if (t === '') return null;
@@ -2034,12 +2093,16 @@ async function importScores(inp){
   try {
     const XL = await loadXLSX(), wb = XL.read(await f.arrayBuffer(), { type: 'array' });
     const byId = {}; d.students.forEach(s => byId[s.id] = s);
-    const out = {}, errs = [], unknown = []; let blank = 0;
+    const out = {}, errs = [], unknown = [], evIn = {}; let blank = 0;
     wb.SheetNames.forEach(sn => {
       const rows = XL.utils.sheet_to_json(wb.Sheets[sn], { header: 1, defval: '' });
       const hi = rows.findIndex(r => r.some(v => String(v).trim() === 'เลขที่') && r.some(v => String(v).trim() === SC_ID));
       if (hi < 0) return;
       const h = rows[hi].map(v => String(v).trim()), cAbs = h.indexOf('ขาดสอบ'), cId = h.indexOf(SC_ID), cNo = h.indexOf('เลขที่');
+      let evName = '', evPos = '';
+      rows.slice(0, hi).forEach(r => { const k = r.findIndex(v => String(v).trim() === 'ครูผู้ประเมิน'), p = r.findIndex(v => String(v).trim() === 'ตำแหน่ง');
+        if (k > -1) evName = String(r[k + 1] || '').trim(); if (p > -1) evPos = String(r[p + 1] || '').trim(); });
+      const sheetRooms = new Set();
       if (cAbs < 0 || cId - cAbs - 1 !== W + (X.p2 ? 10 : 0)) { errs.push(`แผ่นงาน "${sn}": จำนวนคอลัมน์ไม่ตรงกับข้อสอบครั้งนี้ (${X.label} ครั้งที่ ${EN.round}) ให้ดาวน์โหลดแบบบันทึกใหม่`); return; }
       rows.slice(hi + 1).forEach((r, k) => {
         const id = String(r[cId] || '').trim(), line = `แผ่นงาน "${sn}" แถว ${hi + k + 2}`;
@@ -2053,15 +2116,17 @@ async function importScores(inp){
         s.forEach((v, i) => { if (Number.isNaN(v)) bad.push(`ประโยค ${i + 1}`); });
         if (bad.length) { errs.push(`${line} เลขที่ ${st.no} ${st.name}: ค่าไม่ถูกต้องที่ ${bad.slice(0, 4).join(', ')}${bad.length > 4 ? ' …' : ''}`); return; }
         if (!absent && w.every(v => v === null) && s.every(v => v === null)) { blank++; return; }
-        out[id] = { absent, w: absent ? Array(W).fill(null) : w, s: absent ? Array(10).fill(null) : s };
+        out[id] = { absent, w: absent ? Array(W).fill(null) : w, s: absent ? Array(10).fill(null) : s }; sheetRooms.add(st.room);
       });
+      sheetRooms.forEach(rm => { if (evName) evIn[rm] = { name: evName, position: evPos };
+        else if (!evNow(rm)) errs.push(`แผ่นงาน "${sn}": ยังไม่มีชื่อครูผู้ประเมินห้อง ${rm} พิมพ์ในช่องสีเหลืองถัดจากคำว่า "ครูผู้ประเมิน"`); });
     });
     const ids = Object.keys(out);
     if (!ids.length && !errs.length) return toast('ไม่พบคะแนนในไฟล์ ตรวจว่าใช้แบบบันทึกที่ดาวน์โหลดจากระบบ');
     const full = ids.filter(id => out[id].absent || (!out[id].w.includes(null) && (!X.p2 || !out[id].s.includes(null)))).length;
     const changed = ids.filter(id => JSON.stringify(out[id]) !== JSON.stringify({ absent: EN.rows[id].absent, w: EN.rows[id].w, s: EN.rows[id].s })).length;
     const rooms = [...new Set(ids.map(id => byId[id].room))];
-    SCI = out;
+    SCI = out; SCI_EV = evIn;
     $('scSummary').innerHTML = `พบคะแนน <b>${ids.length}</b> คน ห้อง ${rooms.map(esc).join(', ') || '-'}<br>กรอกครบ ${full} คน · ยังไม่ครบ ${ids.length - full} คน · ต่างจากที่บันทึกไว้ ${changed} คน` +
       (blank ? `<br><span style="color:var(--muted)">แถวที่ยังว่าง ${blank} คน ระบบข้ามไว้ (ผลเดิมยังอยู่)</span>` : '') +
       (unknown.length ? `<br><span style="color:var(--warn)">ไม่พบนักเรียน ${unknown.length} แถว (ไม่มีในรายชื่อหรือแก้รหัสระบบ) ระบบข้ามไว้</span>` : '');
@@ -2076,6 +2141,8 @@ async function confirmScores(){
   const ids = Object.keys(SCI || {}); if (!ids.length) return;
   busy('bSci', true, 'กำลังบันทึก…');
   try {
+    for (const rm of Object.keys(SCI_EV || {})) { const e = SCI_EV[rm], cur = evNow(rm);
+      if (!cur || cur.name !== e.name || (cur.position || '') !== e.position) evData().now[rm] = await api('schoolSetEvaluator', store.get(), EN.round, EN.year, rm, e.name, e.position, EX); }
     for (let i = 0; i < ids.length; i += 60) {
       const part = ids.slice(i, i + 60);
       $('bSci').textContent = `กำลังบันทึก ${Math.min(i + 60, ids.length)} / ${ids.length} คน…`;
@@ -2192,7 +2259,7 @@ async function loadReport(){
     if (needRoom) REP.room = String(r.key).split('|')[1] || '';
     $('rpRoom').innerHTML = (REP.rooms || []).map(x => `<option ${x === REP.room ? 'selected' : ''}>${esc(x)}</option>`).join('');
     if (needRoom && !REP.room) { REP.data = null; $('rpTitle').textContent = 'ยังไม่มีข้อมูลห้องเรียน'; $('rpBody').innerHTML = '<div class="empty">ยังไม่มีรายชื่อนักเรียนในปีการศึกษานี้</div>'; return; }
-    REP.data = r; renderReport(r);
+    REP.data = r; renderReport(r); renderFormBtns();
   } catch(e){ $('rpBody').innerHTML = ''; msg('rpErr', e.message); }
 }
 function wordView(r){ return r.words.map((w, i) => ({ no: i + 1, text: w.text, category: w.category, pct: r.summary.wordPct[i], ok: (r.summary.wordOk || [])[i] })); }
@@ -2339,6 +2406,13 @@ function printReport(rr){
   const r = (rr && (rr.words || rr.__doc)) ? rr : REP.data; if (!r) return toast('ยังไม่มีข้อมูลรายงาน');
   const m = r.__doc ? r : docModel(r);
   $('reportDoc').innerHTML = docHtml(m);
+  printDoc();
+}
+/** รอฟอนต์ TH Sarabun โหลดเสร็จ (ไม่เกิน 4 วินาที) แล้วจึงสั่งพิมพ์ */
+async function printDoc(){
+  try { if (document.fonts && document.fonts.load) await Promise.race([
+    Promise.all([document.fonts.load("16pt 'TH Sarabun Web'"), document.fonts.load("bold 16pt 'TH Sarabun Web'")]),
+    new Promise(r => setTimeout(r, 4000))]); } catch(e){}
   document.body.dataset.print = 'doc'; window.print();
 }
 function docHtml(m){
@@ -2355,10 +2429,10 @@ function exportWord(rr){
   const r = (rr && (rr.words || rr.__doc)) ? rr : REP.data; if (!r) return toast('ยังไม่มีข้อมูลรายงาน');
   const m = r.__doc ? r : docModel(r);
   const css = `@page WordSection1{size:21cm 29.7cm;margin:2cm 1.5cm 1.5cm 2cm}
-    div.WordSection1{page:WordSection1} body{font-family:'TH SarabunPSK';font-size:16pt}
-    h2{font-family:'TH SarabunPSK';font-size:18pt;text-align:center;margin:0} p{margin:0}
+    div.WordSection1{page:WordSection1} body{font-family:'TH SarabunPSK','TH Sarabun New';font-size:16pt}
+    h2{font-family:'TH SarabunPSK','TH Sarabun New';font-size:18pt;text-align:center;margin:0} p{margin:0}
     p.c{text-align:center} table{border-collapse:collapse;width:100%;margin-top:6pt}
-    th,td{border:1px solid #000;padding:2pt 4pt;font-family:'TH SarabunPSK';font-size:15pt;text-align:center;vertical-align:top}
+    th,td{border:1px solid #000;padding:2pt 4pt;font-family:'TH SarabunPSK','TH Sarabun New';font-size:15pt;text-align:center;vertical-align:top}
     table.wide th,table.wide td{font-size:11pt;padding:1pt 2pt}
     th{background:#F2F2F2} td.l{text-align:left} .sign{display:block;margin-top:30pt} .sign div{text-align:center;margin-top:18pt;line-height:1.6}`;
   const body = docHtml(m).replace(/<style>[\s\S]*?<\/style>/, '');
@@ -2562,6 +2636,184 @@ async function saveReport(id){
 
 /* ---------- ฝังแดชบอร์ด ---------- */
 
+
+
+/* ---------- แบบฟอร์มทางการ: แบบสรุปคะแนน และแบบบันทึกการให้คะแนนรายคน ---------- */
+const THD = v => String(v);   // รายงานใช้เลขอารบิกทั้งหมด
+const r2 = v => Math.round(v * 100) / 100;
+let FORM = null;
+function formKey(){
+  const lv = REP.level;
+  if (lv === 'area') return ['area', ''];
+  if (lv === 'net') return ['net', REP.net];
+  if (lv === 'school') return ['school', REP.school];
+  return ['room', REP.school + '|' + (REP.room || '')];
+}
+async function getForm(){
+  const [lv, key] = formKey();
+  toast('กำลังเตรียมแบบฟอร์ม…');
+  FORM = await api('getRTForm', store.get(), REP.round, lv, key, REP.year, EX);
+  return FORM;
+}
+function renderFormBtns(){
+  if (!$('rpForms')) return;
+  const sch = !['area', 'net'].includes(REP.level), p2 = XM().p2;
+  $('rpForms').innerHTML = `<b style="align-self:center">แบบฟอร์มทางการ</b>
+    <span class="fgrp"><span>${sch ? 'แบบสรุปคะแนน (รายชื่อ)' : 'แบบสรุปคะแนนรายโรงเรียน'}</span><button class="btn primary sm" onclick="formOut('sum','pdf')">PDF</button><button class="btn soft sm" onclick="formOut('sum','doc')">Word</button><button class="btn ok sm" onclick="formOut('sum','xlsx')">Excel</button></span>
+    ${sch && p2 ? `<span class="fgrp"><span>แบบบันทึกการให้คะแนนรายคน</span><button class="btn primary sm" onclick="formOut('ind','pdf')">PDF</button><button class="btn soft sm" onclick="formOut('ind','doc')">Word</button></span>` : ''}`;
+}
+async function formOut(kind, fmt){
+  let f; try { f = await getForm(); } catch(e){ return toast(e.message); }
+  const school = !['area', 'net'].includes(f.level);
+  if (school) { const miss = [...new Set(f.rows.filter(x => x.status !== 'none').map(x => x.room))].filter(rm => !((f.evaluators || {})[rm] || {}).name);
+    if (miss.length && f.role === 'school') return toast(`กรุณาบันทึกชื่อครูผู้ประเมิน ห้อง ${miss.join(', ')} ก่อนออกรายงาน (หน้าบันทึกผล)`);
+    if (miss.length) toast(`ห้อง ${miss.join(', ')} ยังไม่มีชื่อครูผู้ประเมิน ช่องลงชื่อจะเว้นว่าง`); }
+  const spec = kind === 'ind' ? indForm(f) : school ? schoolSumForm(f) : areaSumForm(f);
+  if (!spec) return;
+  if (fmt === 'pdf') { $('reportDoc').innerHTML = spec.html; printDoc(); }
+  else if (fmt === 'doc') formWord(spec.html, spec.title, spec.fname);
+  else formXlsx(spec);
+}
+function signHtml(sg, schoolName, evs){
+  const a = evs && evs.length ? evs : [{ name: sg.reporter, pos: sg.reporterPos || 'ผู้รายงาน' }];
+  if (sg.director !== undefined && schoolName) a.push({ name: sg.director, pos: 'ผู้อำนวยการ' + schoolName });
+  const dots = a.length > 2 ? '....................................' : '..................................................';
+  return `<div class="sign">${a.map(x => `<div>ลงชื่อ <span style="white-space:nowrap">${dots}</span><br>(${esc(x.name || dots)})${x.pos ? '<br>' + esc(x.pos) : ''}${x.sub ? '<br>' + esc(x.sub) : ''}</div>`).join('')}</div>`;
+}
+const PAGE_CSS = '<style>@page{size:A4 portrait;margin:15mm 12mm 12mm 15mm}</style>';
+
+/* แบบสรุปคะแนน รายชื่อนักเรียน (โรงเรียน / ห้อง) */
+function schoolSumForm(f){
+  const E = f.exam, p2 = E.p2, W = f.W, MX = f.MX;
+  if (!W) { toast('ครั้งนี้ยังไม่มีข้อสอบ'); return null; }
+  if (!f.rows.length) { toast('ยังไม่มีรายชื่อนักเรียน'); return null; }
+  const title = p2 ? 'แบบสรุปคะแนนแบบทดสอบการอ่านออกเสียง' : 'แบบสรุปคะแนนแบบทดสอบ' + E.full;
+  const sub = `${E.label || E.name + ' ' + E.grade}  ครั้งที่ ${f.round}  ปีการศึกษา ${f.year}` + (f.testDate ? `  วันที่สอบ ${thDateLong(f.testDate)}` : '');
+  const head = p2 ? ['ที่', 'ชื่อ-สกุล', `ตอนที่ 1\nการอ่านคำ\n(${W})`, 'ตอนที่ 2\nการอ่านข้อความ\n(30)', `รวม\n\n(${MX})`, `คิดเป็นร้อยละ\n${MX === 50 ? '(คะแนนรวมที่ได้×2)\n' : ''}(100)`]
+                  : ['ที่', 'ชื่อ-สกุล', `คะแนน\n(${W})`, 'คิดเป็นร้อยละ\n(100)'];
+  const nc = head.length, rooms = [...new Set(f.rows.map(x => x.room))];
+  const cells = x => x.status === 'absent' ? [{ v: 'ขาดสอบ', span: nc - 2 }] : x.status === 'none' ? [{ v: 'ยังไม่บันทึกผล', span: nc - 2 }]
+    : p2 ? [x.p1, x.status === 'ok' ? x.p2 : '–', x.status === 'ok' ? x.total : '–', x.status === 'ok' ? x.pct : 'ยังไม่ครบ'] : [x.p1, x.status === 'ok' ? x.pct : 'ยังไม่ครบ'];
+  const ok = f.rows.filter(x => x.status === 'ok'), avg = k => ok.length ? r2(ok.reduce((a, x) => a + x[k], 0) / ok.length) : '–';
+  const avgRow = p2 ? ['', 'คะแนนเฉลี่ย', avg('p1'), avg('p2'), avg('total'), avg('pct')] : ['', 'คะแนนเฉลี่ย', avg('p1'), avg('pct')];
+  const cnt = s => f.rows.filter(x => x.status === s).length;
+  const note = `นักเรียนทั้งหมด ${f.rows.length} คน  เข้าสอบ ${f.rows.length - cnt('absent') - cnt('none')} คน  ขาดสอบ ${cnt('absent')} คน` + (cnt('none') ? `  ยังไม่บันทึกผล ${cnt('none')} คน` : '') + (cnt('part') ? `  บันทึกไม่ครบ ${cnt('part')} คน` : '');
+  const th = h => `<th>${h.split('\n').map((t, i) => /^\(คะแนนรวม/.test(t) ? `<small class="x">${esc(THD(t))}</small>` : esc(THD(t))).join('<br>')}</th>`;
+  const td = (v, l) => typeof v === 'object' && v ? `<td colspan="${v.span}">${esc(v.v)}</td>` : `<td${l ? ' class="l"' : ''}>${esc(THD(v))}</td>`;
+  let n = 0;
+  const EV = f.evaluators || {}, evOf = rm => EV[rm] && EV[rm].name ? EV[rm] : null;
+  const evs = []; rooms.forEach(rm => { const e = evOf(rm); if (e && !evs.some(x => x.name === e.name)) evs.push({ name: e.name, pos: e.position || '', sub: 'ครูผู้ประเมิน' + (rooms.length > 1 ? ' ห้อง ' + rooms.filter(r => (evOf(r) || {}).name === e.name).join(', ') : '') }); });
+  const html = PAGE_CSS + `<h2>${esc(title)}</h2><p class="c">${esc(THD(sub))}</p>
+    <p style="margin:10px 0 0">โรงเรียน <span class="ln">${esc(f.school)}</span>  เครือข่าย <span class="ln">${esc(f.network)}</span>${f.room ? `  ห้อง <span class="ln">${esc(THD(f.room))}</span>` : ''}</p>
+    ${rooms.length === 1 ? `<p style="margin:2px 0 0">ครูผู้ประเมิน <span class="ln">${esc((evOf(rooms[0]) || {}).name || '..................................................')}</span></p>` : ''}
+    <table class="fm"><colgroup>${(p2 ? [6, 36, 13, 16, 11, 18] : [7, 45, 20, 28]).map(w => `<col style="width:${w}%">`).join('')}</colgroup><thead><tr>${head.map(th).join('')}</tr></thead><tbody>
+    ${rooms.map(rm => (rooms.length > 1 || !f.room ? `<tr><td colspan="${nc}" class="l" style="background:#F7F7F7;font-weight:700">ห้อง ${esc(THD(rm))}${evOf(rm) ? `  <span style="font-weight:400">ครูผู้ประเมิน ${esc(evOf(rm).name)}</span>` : ''}</td></tr>` : '') +
+      f.rows.filter(x => x.room === rm).map(x => `<tr>${td(++n)}${td(x.name, 1)}${cells(x).map(v => td(v)).join('')}</tr>`).join('')).join('')}
+    <tr style="font-weight:700">${avgRow.map((v, i) => td(v, i === 1)).join('')}</tr></tbody></table>
+    <p style="margin:8px 0 0">${esc(THD(note))}</p>${signHtml(f.signers, f.school, evs)}`;
+  const rows = []; let k = 0;
+  rooms.forEach(rm => { if (rooms.length > 1 || !f.room) rows.push({ band: 'ห้อง ' + rm + (evOf(rm) ? '  ครูผู้ประเมิน ' + evOf(rm).name : '') });
+    f.rows.filter(x => x.room === rm).forEach(x => rows.push([++k, x.name].concat(cells(x).flatMap(v => typeof v === 'object' && v ? [v.v].concat(Array(v.span - 1).fill('')) : [v])))); });
+  rows.push(avgRow);
+  return { html, title, fname: `แบบสรุปคะแนน_${exTag(f)}_ครั้งที่${f.round}_${f.year}_${f.school}${f.room ? '_' + f.room : ''}`.replace(/[\\\/:*?"<>|\s]+/g, '_'),
+    lines: [title, sub, `โรงเรียน ${f.school}  เครือข่าย ${f.network}${f.room ? '  ห้อง ' + f.room : ''}${rooms.length === 1 && evOf(rooms[0]) ? '  ครูผู้ประเมิน ' + evOf(rooms[0]).name : ''}`], head: head.map(h => h.replace(/\n+/g, ' ')), rows, foot: [note], widths: p2 ? [6, 30, 12, 14, 10, 16] : [6, 34, 14, 16] };
+}
+
+/* แบบสรุปคะแนน รายโรงเรียน (เขต / เครือข่าย) */
+function areaSumForm(f){
+  const E = f.exam, p2 = E.p2, W = f.W, MX = f.MX;
+  if (!W) { toast('ครั้งนี้ยังไม่มีข้อสอบ'); return null; }
+  const title = (p2 ? 'แบบสรุปคะแนนแบบทดสอบการอ่านออกเสียง' : 'แบบสรุปคะแนนแบบทดสอบ' + E.full) + (f.level === 'net' ? ' ระดับเครือข่าย' : ' ระดับเขตพื้นที่');
+  const sub = `${E.label || E.name + ' ' + E.grade}  ครั้งที่ ${f.round}  ปีการศึกษา ${f.year}`;
+  const head = ['ที่', 'โรงเรียน', 'นักเรียน\nทั้งหมด', 'เข้าสอบ', 'ร้อยละ\nเข้าสอบ'].concat(p2 ? [`ตอนที่ 1\nเฉลี่ย\n(${W})`, 'ตอนที่ 2\nเฉลี่ย\n(30)', `รวม\nเฉลี่ย\n(${MX})`] : [`คะแนน\nเฉลี่ย\n(${W})`], ['ร้อยละ\nเฉลี่ย']);
+  const nc = head.length;
+  const agg = list => { const t = list.reduce((a, x) => ({ en: a.en + (x.enrolled || 0), enN: a.enN + (x.enrolled !== null ? 1 : 0), te: a.te + x.tested, sc: a.sc + x.scored, s1: a.s1 + x.sumP1, s2: a.s2 + x.sumP2, st: a.st + x.sumTotal }), { en: 0, enN: 0, te: 0, sc: 0, s1: 0, s2: 0, st: 0 });
+    const en = t.enN ? t.en : null;
+    return [en ?? '–', t.te, en ? r2(t.te / en * 100) : '–'].concat(p2 ? [t.te ? r2(t.s1 / t.te) : '–', t.sc ? r2(t.s2 / t.sc) : '–', t.sc ? r2(t.st / t.sc) : '–'] : [t.te ? r2(t.s1 / t.te) : '–'], [t.sc && MX ? r2(t.st / t.sc / MX * 100) : '–']); };
+  const nets = [...new Set(f.rows.map(x => x.network))];
+  const rows = []; let k = 0;
+  nets.forEach(nt => {
+    const list = f.rows.filter(x => x.network === nt);
+    if (f.level === 'area') rows.push({ band: NET_FULL + nt });
+    list.forEach(x => rows.push(!x.tested && !x.absent ? [++k, x.name, x.enrolled ?? '–', { v: x.registered ? 'ยังไม่ส่งผล' : 'ยังไม่ลงทะเบียน', span: nc - 3 }] : [++k, x.name].concat(agg([x]))));
+    if (f.level === 'area') rows.push({ total: 'รวมเครือข่าย' + nt, vals: agg(list) });
+  });
+  rows.push({ total: f.level === 'area' ? 'รวมทั้งเขตพื้นที่' : 'รวมเครือข่าย' + (f.network || ''), vals: agg(f.rows), grand: true });
+  const th = h => `<th>${h.split('\n').map(t => esc(THD(t))).join('<br>')}</th>`;
+  const td = (v, l) => typeof v === 'object' && v ? `<td colspan="${v.span}">${esc(v.v)}</td>` : `<td${l ? ' class="l"' : ''}>${esc(THD(v))}</td>`;
+  const sent = f.rows.filter(x => x.tested || x.absent).length;
+  const note = `โรงเรียน${f.level === 'area' ? 'ทั้งเขต' : 'ในเครือข่าย'} ${f.rows.length} โรงเรียน  ส่งผลแล้ว ${sent} โรงเรียน  ยังไม่ส่งผล ${f.rows.length - sent} โรงเรียน (จำนวนนักเรียนทั้งหมด ตามที่โรงเรียนแจ้งในระบบ)`;
+  const html = PAGE_CSS + `<h2>${esc(title)}</h2><p class="c">${esc(THD(sub))}</p><p class="c">${esc(f.network ? NET_FULL + f.network + '  ' + f.area : f.area)}</p>
+    <table class="fm sm"><colgroup>${(p2 ? [5, 31, 9, 8, 9, 9.5, 9.5, 9.5, 9.5] : [5, 37, 10, 10, 10, 14, 14]).map(w => `<col style="width:${w}%">`).join('')}</colgroup><thead><tr>${head.map(th).join('')}</tr></thead><tbody>
+    ${rows.map(x => x.band ? `<tr><td colspan="${nc}" class="l" style="background:#F7F7F7;font-weight:700">${esc(x.band)}</td></tr>`
+      : x.total ? `<tr style="font-weight:700${x.grand ? ';background:#EFEFEF' : ''}"><td colspan="2" class="l">${esc(x.total)}</td>${x.vals.map(v => td(v)).join('')}</tr>`
+      : `<tr>${x.map((v, i) => td(v, i === 1)).join('')}</tr>`).join('')}</tbody></table>
+    <p style="margin:8px 0 0">${esc(THD(note))}</p>${signHtml(f.signers)}`;
+  const xrows = rows.map(x => x.band ? { band: x.band } : x.total ? [x.total, ''].concat(x.vals) : x.flatMap(v => typeof v === 'object' && v ? [v.v].concat(Array(v.span - 1).fill('')) : [v]));
+  return { html, title, fname: `แบบสรุปคะแนน_${exTag(f)}_ครั้งที่${f.round}_${f.year}_${f.level === 'net' ? 'เครือข่าย' + f.network : 'ระดับเขต'}`.replace(/[\\\/:*?"<>|\s]+/g, '_'),
+    lines: [title, sub, f.network ? NET_FULL + f.network : f.area], head: head.map(h => h.replace(/\n+/g, ' ')), rows: xrows, foot: [note], widths: p2 ? [6, 32, 10, 9, 9, 10, 10, 10, 10] : [6, 34, 11, 10, 10, 12, 11] };
+}
+
+/* แบบบันทึกการให้คะแนนอ่านออกเสียง คนละ 1 หน้า (Pre RT) */
+function indForm(f){
+  const list = f.rows.filter(x => x.status === 'ok' || x.status === 'part');
+  if (!list.length) { toast('ยังไม่มีนักเรียนที่บันทึกผลแล้ว'); return null; }
+  const W = f.W, lv = [3, 2, 1, 0], lvName = ['ดีมาก', 'ดี', 'พอใช้', 'ปรับปรุง'];
+  const page = x => {
+    const s = (x.sentences || '').split(''), cnt = lv.map(v => s.filter(c => c === String(v)).length);
+    return `<div class="pg"><h2>แบบบันทึกการให้คะแนนอ่านออกเสียง</h2>
+      <p class="c">${esc(THD(`Pre RT ป.1  ครั้งที่ ${f.round}  ปีการศึกษา ${f.year}`))}</p>
+      <p style="margin:12px 0 0">ชื่อ – นามสกุล <span class="ln">${esc(x.name)}</span>  โรงเรียน <span class="ln">${esc(f.school)}</span>  ห้องที่ <span class="ln">${esc(THD(x.room))}</span>  เลขที่ <span class="ln">${esc(THD(x.no))}</span></p>
+      <p style="margin:12px 0 0;font-weight:700">ตอนที่ 1 การอ่านคำ</p>
+      <table class="fm"><thead><tr><th>รายการ</th><th style="width:34%">คะแนนที่ได้</th></tr></thead>
+        <tbody><tr><td class="l">จำนวนคำที่อ่าน ${THD(W)} คำ (อ่านถูกต้องได้คำละ 1 คะแนน)<br><b>รวม ${THD(W)} คะแนน</b></td><td style="font-size:18pt;font-weight:700">${THD(x.p1)}</td></tr></tbody></table>
+      <p style="margin:12px 0 0;font-weight:700">ตอนที่ 2 การอ่านข้อความ</p>
+      <p style="margin:0">ให้กรรมการใส่เครื่องหมาย ✓ ลงใน ☐ ที่ตรงกับคะแนนที่นักเรียนอ่านประโยคได้</p>
+      <table class="fm"><colgroup><col style="width:15%"><col style="width:15.75%"><col style="width:15.75%"><col style="width:15.75%"><col style="width:15.75%"><col style="width:22%"></colgroup><thead><tr><th rowspan="2">ประโยคที่</th><th colspan="4">ระดับคุณภาพ (คะแนน)</th><th rowspan="2">รายการ</th></tr>
+        <tr>${lv.map((v, i) => `<th style="font-weight:400">${lvName[i]}<br>${THD(v)}</th>`).join('')}</tr></thead><tbody>
+        ${Array.from({ length: 10 }, (_, i) => `<tr><td>${THD(i + 1)}</td>${lv.map(v => `<td>${s[i] === String(v) ? '✓' : ''}</td>`).join('')}${i === 0 ? '<td rowspan="12" class="l" style="vertical-align:top">พิจารณาให้ระดับคุณภาพ (คะแนน) เป็น 3 2 1 และ 0 ตามเกณฑ์และแนวทางการให้คะแนน</td>' : ''}</tr>`).join('')}
+        <tr><td style="font-weight:700">รวมจำนวน ✓</td>${cnt.map(c => `<td>${THD(c)}</td>`).join('')}</tr>
+        <tr><td style="font-weight:700">รวมคะแนน</td>${cnt.map((c, i) => `<td>${THD(c * lv[i])}</td>`).join('')}</tr></tbody></table>
+      <table class="fm" style="margin-top:14px"><thead><tr><th>คะแนนเต็ม</th><th>คะแนนที่ได้</th></tr></thead><tbody>
+        <tr><td>ตอนที่ 1 (${THD(W)} คะแนน)</td><td>${THD(x.p1)}</td></tr><tr><td>ตอนที่ 2 (30 คะแนน)</td><td>${x.status === 'ok' ? THD(x.p2) : 'ยังไม่ครบ'}</td></tr>
+        <tr style="font-weight:700"><td>รวมคะแนนเต็ม ${THD(f.MX)} คะแนน</td><td>${x.status === 'ok' ? THD(x.total) : '–'}</td></tr></tbody></table>
+      <div class="sign" style="margin-top:28px"><div>ลงชื่อ ..................................................ครูผู้ประเมิน<br>(${esc(((f.evaluators || {})[x.room] || {}).name || '..................................................')})${((f.evaluators || {})[x.room] || {}).position ? '<br>' + esc(f.evaluators[x.room].position) : ''}</div></div></div>`;
+  };
+  const title = 'แบบบันทึกการให้คะแนนอ่านออกเสียง';
+  return { html: PAGE_CSS + list.map(page).join(''), title,
+    fname: `แบบบันทึกการให้คะแนนรายคน_ครั้งที่${f.round}_${f.year}_${f.school}${f.room ? '_' + f.room : ''}`.replace(/[\\\/:*?"<>|\s]+/g, '_') };
+}
+
+/* Word และ Excel ของแบบฟอร์ม */
+function formWord(html, title, fname){
+  const css = `@page WordSection1{size:21cm 29.7cm;margin:2cm 1.5cm 1.5cm 2cm}
+    div.WordSection1{page:WordSection1} body{font-family:'TH SarabunPSK','TH Sarabun New';font-size:16pt}
+    h2{font-family:'TH SarabunPSK','TH Sarabun New';font-size:18pt;text-align:center;margin:0} p{margin:0} p.c{text-align:center}
+    table{border-collapse:collapse;width:100%;margin-top:6pt} th,td{border:1px solid #000;padding:2pt 4pt;font-family:'TH SarabunPSK','TH Sarabun New';font-size:15pt;text-align:center;vertical-align:middle}
+    table.sm th,table.sm td{font-size:13pt} th{background:#F2F2F2} td.l{text-align:left} .ln{text-decoration:underline dotted}
+    .sign{margin-top:24pt} .sign div{text-align:center;margin-top:14pt;line-height:1.6} .pg{page-break-after:always}`;
+  const body = html.replace(/<style>[\s\S]*?<\/style>/, '');
+  const doc = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>${esc(title)}</title>
+    <!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]--><style>${css}</style></head><body><div class="WordSection1">${body}</div></body></html>`;
+  const blob = new Blob(['﻿' + doc], { type: 'application/msword' }), a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = fname + '.doc'; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+async function formXlsx(spec){
+  try {
+    const X = await loadXLSX(), w = spec.head.length, aoa = [], merges = [], marks = [];
+    const full = (t, o) => { merges.push({ s: { r: aoa.length, c: 0 }, e: { r: aoa.length, c: w - 1 } }); marks.push([aoa.length, 0, aoa.length, w - 1, o]); aoa.push([t]); };
+    spec.lines.forEach((t, i) => full(t, { bold: i === 0, center: true, sz: i === 0 ? 18 : 16 })); aoa.push([]);
+    const top = aoa.length; aoa.push(spec.head); marks.push([top, 0, top, w - 1, { bold: true, border: true, center: true, fill: 'F2F2F2' }]);
+    spec.rows.forEach(r => { if (r.band) { merges.push({ s: { r: aoa.length, c: 0 }, e: { r: aoa.length, c: w - 1 } }); marks.push([aoa.length, 0, aoa.length, w - 1, { bold: true, left: true, border: true, fill: 'F7F7F7' }]); aoa.push([r.band]); }
+      else { marks.push([aoa.length, 0, aoa.length, w - 1, { border: true, center: true }]); marks.push([aoa.length, 1, aoa.length, 1, { left: true }]); aoa.push(r); } });
+    aoa.push([]); (spec.foot || []).forEach(t => full(t, { left: true }));
+    const ws = X.utils.aoa_to_sheet(aoa); ws['!merges'] = merges;
+    styleRange(X, ws, 0, 0, aoa.length - 1, w - 1, {}); marks.forEach(k => styleRange(X, ws, k[0], k[1], k[2], k[3], k[4]));
+    ws['!cols'] = (spec.widths || []).map(x => ({ wch: x }));
+    ws['!pageSetup'] = { orientation: 'portrait', paperSize: 9, fitToWidth: 1, fitToHeight: 0 };
+    const wb = X.utils.book_new(); X.utils.book_append_sheet(wb, ws, 'แบบสรุปคะแนน'); X.writeFile(wb, spec.fname + '.xlsx');
+  } catch(e){ toast(e.message); }
+}
 
 </script>
 
